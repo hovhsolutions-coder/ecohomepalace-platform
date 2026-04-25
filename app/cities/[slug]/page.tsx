@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import PublicFooter from "@/components/PublicFooter";
 import PublicHeader from "@/components/PublicHeader";
 import TrustSection from "@/components/TrustSection";
 import {
-  cities,
   cityHowItWorks,
   cityOrder,
   getCityBySlug,
@@ -11,7 +12,6 @@ import {
   publicTrustPoints,
   services,
 } from "@/lib/publicData";
-import { notFound } from "next/navigation";
 
 export function generateStaticParams() {
   return cityOrder.map((slug) => ({ slug }));
@@ -48,39 +48,38 @@ export default async function CityDetailPage({
   }
 
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="premium-shell min-h-screen text-[var(--foreground)]">
       <PublicHeader />
 
-      <section className="px-6 py-20">
+      <section className="section-padding px-6">
         <div className="mx-auto max-w-6xl">
-          <a
-            href="/cities"
-            className="inline-flex text-sm text-white/60 transition hover:text-white"
-          >
-            Back to Cities
-          </a>
+          <Breadcrumbs
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Cities", href: "/cities" },
+              { label: city.name, href: `/cities/${slug}` },
+            ]}
+          />
 
-          <div className="mt-8 rounded-[2rem] border border-white/10 bg-white/5 p-10 md:p-12">
-            <p className="text-sm uppercase tracking-[0.2em] text-white/50">
-              {city.country}
-            </p>
-            <h1 className="mt-4 text-4xl font-bold leading-tight sm:text-5xl md:text-6xl">
+          <div className="glass-panel mt-8 rounded-[1.85rem] px-8 py-10 md:px-12 md:py-14">
+            <p className="section-kicker">{city.country}</p>
+            <h1 className="mt-4 max-w-4xl text-4xl font-semibold leading-tight sm:text-5xl md:text-6xl">
               Find trusted home professionals in {city.name}
             </h1>
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-white/70">
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-[var(--foreground-soft)]">
               {city.detailDescription}
             </p>
 
             <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <a
                 href={`/intake?city=${slug}`}
-                className="inline-flex items-center justify-center rounded-full bg-white px-8 py-4 font-semibold text-black transition hover:bg-gray-200"
+                className="gold-button inline-flex min-h-14 items-center justify-center rounded-full px-8 py-4 font-semibold"
               >
-                Start Project
+                Compare installers in your area
               </a>
               <a
                 href="/services"
-                className="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-4 font-semibold text-white transition hover:border-white hover:bg-white/5"
+                className="inline-flex min-h-14 items-center justify-center rounded-full border border-[rgba(20,35,25,0.1)] bg-white/75 px-6 py-4 font-semibold text-[var(--foreground-soft)] transition hover:border-[rgba(31,93,69,0.18)] hover:text-[var(--foreground)]"
               >
                 Explore Services
               </a>
@@ -88,32 +87,26 @@ export default async function CityDetailPage({
           </div>
 
           <section className="mt-12">
-            <p className="text-sm uppercase tracking-[0.2em] text-white/50">
-              City / platform explanation
-            </p>
-            <div className="mt-6 rounded-[2rem] border border-white/10 bg-zinc-950 p-8">
-              <p className="max-w-4xl text-lg leading-8 text-white/70">
+            <p className="section-kicker">City explanation</p>
+            <div className="premium-card mt-6">
+              <p className="max-w-4xl text-lg leading-8 text-[var(--foreground-soft)]">
                 {city.shortDescription} Eco Home Palace uses city pages like{" "}
                 {city.name} to connect local discovery with a clearer intake
-                path.
+                path and more relevant comparison.
               </p>
             </div>
           </section>
 
           <section className="mt-12">
-            <p className="text-sm uppercase tracking-[0.2em] text-white/50">
-              Popular services in this city
-            </p>
+            <p className="section-kicker">Popular services in this city</p>
             <div className="mt-6 grid gap-4 sm:grid-cols-2 md:grid-cols-3">
               {popularServiceSlugs.map((serviceSlug) => (
                 <a
                   key={serviceSlug}
                   href={`/services/${serviceSlug}`}
-                  className="rounded-2xl border border-white/10 bg-zinc-950 px-6 py-5 transition hover:border-white/20"
+                  className="premium-card"
                 >
-                  <span className="font-semibold">
-                    {services[serviceSlug].title}
-                  </span>
+                  <span className="font-semibold">{services[serviceSlug].title}</span>
                 </a>
               ))}
             </div>
@@ -126,20 +119,15 @@ export default async function CityDetailPage({
           />
 
           <section className="mt-12">
-            <p className="text-sm uppercase tracking-[0.2em] text-white/50">
-              How it works
-            </p>
+            <p className="section-kicker">How it works</p>
             <div className="mt-6 grid gap-6 md:grid-cols-3">
               {cityHowItWorks.map((item) => (
-                <div
-                  key={item.step}
-                  className="rounded-2xl border border-white/10 bg-zinc-950 p-6"
-                >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-lg font-bold text-black">
+                <div key={item.step} className="premium-card">
+                  <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-[rgba(31,93,69,0.12)] text-lg font-bold text-[var(--primary-700)]">
                     {item.step}
                   </div>
                   <h2 className="mt-4 text-xl font-semibold">{item.title}</h2>
-                  <p className="mt-3 leading-7 text-white/65">
+                  <p className="mt-3 leading-7 text-[var(--foreground-soft)]">
                     {item.description}
                   </p>
                 </div>
@@ -148,15 +136,13 @@ export default async function CityDetailPage({
           </section>
 
           <section className="mt-12">
-            <p className="text-sm uppercase tracking-[0.2em] text-white/50">
-              Example combination pages
-            </p>
+            <p className="section-kicker">Example combination pages</p>
             <div className="mt-6 flex flex-wrap gap-3">
               {popularServiceSlugs.slice(0, 3).map((serviceSlug) => (
                 <a
                   key={serviceSlug}
                   href={`/${serviceSlug}/${slug}`}
-                  className="inline-flex rounded-full border border-white/20 px-5 py-3 text-sm font-semibold text-white transition hover:border-white hover:bg-white/5"
+                  className="soft-pill inline-flex rounded-full px-5 py-3 text-sm font-semibold transition hover:text-[var(--foreground)]"
                 >
                   {services[serviceSlug].title} in {city.name}
                 </a>

@@ -7,7 +7,7 @@ import { formatCityLabel, formatServiceLabel } from "@/lib/publicData";
 export const metadata: Metadata = {
   title: "Thanks | Eco Home Palace",
   description:
-    "Your project request is being prepared for matching with suitable local professionals.",
+    "Your project request has been received and is now being prepared for matching with suitable professionals.",
 };
 
 export default async function ThanksPage({
@@ -21,28 +21,26 @@ export default async function ThanksPage({
   const hasContext = Boolean(service && city);
 
   return (
-    <main className="premium-shell min-h-screen text-white">
+    <main className="premium-shell min-h-screen text-[var(--foreground)]">
       <PublicHeader />
 
-      <section className="px-6 py-20">
+      <section className="section-padding px-6">
         <div className="mx-auto max-w-3xl">
-          <div className="glass-panel px-8 py-10 text-center md:px-12 md:py-14">
-            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full border border-emerald-400/20 bg-emerald-400/10 text-3xl text-[var(--emerald-300)]">
+          <div className="glass-panel rounded-[1.85rem] px-8 py-10 text-center md:px-12 md:py-14">
+            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-[rgba(47,138,103,0.12)] text-3xl text-[var(--primary-700)]">
               ✓
             </div>
 
-            <p className="mt-6 text-sm uppercase tracking-[0.22em] text-[var(--gold-300)]/72">
-              Matching started
-            </p>
+            <p className="section-kicker mt-6">Matching started</p>
             <h1 className="mt-4 text-3xl font-semibold md:text-5xl">
-              Your request has been received
+              Your request is moving forward
             </h1>
-            <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-white/72">
+            <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-[var(--foreground-soft)]">
               {hasContext
                 ? `We started matching for ${service} in ${city}.`
-                : "We started preparing your request for suitable local professionals."}
+                : "We started preparing your request for trusted local professionals."}
             </p>
-            <p className="mt-3 text-sm text-[var(--emerald-300)]">
+            <p className="mt-3 text-sm text-[var(--primary-600)]">
               Your request is free and without obligation.
             </p>
 
@@ -53,10 +51,10 @@ export default async function ThanksPage({
                 "Contact within 24 hours",
               ].map((item, index) => (
                 <div key={item} className="premium-card text-left">
-                  <p className="text-sm font-semibold text-[var(--gold-300)]">
+                  <p className="text-sm font-semibold text-[var(--primary-600)]">
                     0{index + 1}
                   </p>
-                  <p className="mt-4 text-base leading-7 text-white/82">
+                  <p className="mt-4 text-base leading-7 text-[var(--foreground)]">
                     {item}
                   </p>
                 </div>
@@ -66,26 +64,31 @@ export default async function ThanksPage({
             <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
               <Link
                 href="/intake"
-                className="gold-button inline-flex items-center justify-center rounded-full px-8 py-4 text-base font-semibold"
+                className="gold-button inline-flex min-h-14 items-center justify-center rounded-full px-8 py-4 text-base font-semibold"
               >
-                Submit another project
+                Get 3 free quotes
               </Link>
               <Link
                 href="/"
-                className="inline-flex items-center justify-center rounded-full border border-[var(--gold-border)] px-8 py-4 text-base font-semibold text-white/86 transition duration-200 hover:-translate-y-0.5 hover:border-[var(--gold-300)] hover:bg-white/5"
+                className="inline-flex min-h-14 items-center justify-center rounded-full border border-[rgba(20,35,25,0.1)] bg-white/75 px-8 py-4 text-base font-semibold text-[var(--foreground-soft)] transition duration-200 hover:border-[rgba(31,93,69,0.18)] hover:text-[var(--foreground)]"
               >
-                Back to Home
+                Back to homepage
               </Link>
             </div>
 
-            <div className="mt-8 flex flex-wrap justify-center gap-3 text-sm text-white/60">
-              <Link href="/services" className="transition hover:text-white">
-                Explore Services
-              </Link>
-              <span>/</span>
-              <Link href="/cities" className="transition hover:text-white">
-                Explore Cities
-              </Link>
+            <div className="mt-8">
+              <p className="section-kicker">What you can do now</p>
+              <div className="mt-5 flex flex-wrap justify-center gap-3 text-sm">
+                <Link href="/intake" className="soft-pill rounded-full px-4 py-2 font-medium">
+                  Submit another project
+                </Link>
+                <Link href="/services" className="soft-pill rounded-full px-4 py-2 font-medium">
+                  Explore services
+                </Link>
+                <Link href="/cities" className="soft-pill rounded-full px-4 py-2 font-medium">
+                  Explore cities
+                </Link>
+              </div>
             </div>
           </div>
         </div>

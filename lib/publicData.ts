@@ -46,6 +46,7 @@ export type FrontendService = {
   description: string;
   intakeSlug: ServiceSlug;
   routeSlug?: ServiceSlug;
+  ctaLabel?: string;
 };
 
 export type MarketCity = {
@@ -65,168 +66,173 @@ export type TrustStat = {
   label: string;
 };
 
-export type Testimonial = {
+export type ReviewCard = {
   name: string;
   city: string;
   quote: string;
-  rating: string;
+  date?: string;
+};
+
+export type SearchLink = {
+  label: string;
+  href: string;
 };
 
 export const services: Record<ServiceSlug, ServiceData> = {
   renovation: {
     title: "Renovation",
-    heroLabel: "Whole-home upgrades",
+    heroLabel: "Whole-home improvements",
     shortDescription:
-      "Large renovation projects, layout changes, and coordinated upgrades for quality-conscious homeowners.",
+      "Renovation projects benefit from clearer scope, better timing, and stronger local matching from the start.",
     detailDescription:
-      "Renovation projects often involve planning, budgeting, and timing across multiple trades. Eco Home Palace turns that complexity into a clearer matching request.",
+      "Eco Home Palace helps homeowners frame renovation work clearly before they compare suitable professionals, making larger projects easier to review and price.",
     examples: [
-      "Full apartment or townhouse renovation planning",
-      "Open-plan living upgrades with structural changes",
-      "Investment-property renovation before rent or sale",
+      "Complete apartment or townhouse renovation",
+      "Layout improvements and structural upgrade planning",
+      "Interior renewal before moving in or listing a property",
     ],
   },
   painting: {
     title: "Painting",
-    heroLabel: "Interior and exterior finishing",
+    heroLabel: "Interior and exterior refresh",
     shortDescription:
-      "Professional painting support for crisp finishes, protective coatings, and polished property refreshes.",
+      "Painting projects move faster when the finish, access, and timing are defined before contact begins.",
     detailDescription:
-      "Painting work moves faster when professionals understand scope, access, and finish expectations upfront.",
+      "From single-room refreshes to full exterior painting, a better-prepared request helps homeowners get more relevant offers.",
     examples: [
-      "Interior wall and ceiling repainting",
-      "Exterior facade refresh and protection",
-      "Move-in and rental turnover finishing",
+      "Interior repainting for walls and ceilings",
+      "Exterior facade painting and weather protection",
+      "Move-in refresh and rental turnover finishing",
     ],
   },
   plumbing: {
     title: "Plumbing",
-    heroLabel: "Repairs and installations",
+    heroLabel: "Repairs and system upgrades",
     shortDescription:
-      "Plumbing support for leak repairs, fixture replacements, system upgrades, and practical home improvements.",
+      "Plumbing projects often depend on urgency, access, and system context, which is why clear intake matters.",
     detailDescription:
-      "Plumbing requests benefit from clear project context, urgency, and property details before review starts.",
+      "Eco Home Palace helps homeowners prepare plumbing requests for repairs, upgrades, and replacements before they reach suitable professionals.",
     examples: [
       "Leak repair and pipe replacement",
-      "Kitchen and bathroom fixture upgrades",
-      "Water pressure and drainage improvements",
+      "Kitchen or bathroom fixture upgrades",
+      "Drainage and water pressure improvements",
     ],
   },
   electrical: {
     title: "Electrical work",
     heroLabel: "Power, safety, and smart upgrades",
     shortDescription:
-      "Electrical work for rewiring, distribution upgrades, lighting, EV charging, and safer modern homes.",
+      "Electrical projects need clarity around safety, capacity, and future use before professional review starts.",
     detailDescription:
-      "Electrical projects often combine compliance, power needs, and future-ready upgrades, so matching starts with better intake detail.",
+      "We help homeowners prepare electrical requests for rewiring, lighting, charger installation, and panel upgrades.",
     examples: [
-      "Consumer unit and panel upgrades",
-      "Lighting design, sockets, and switch replacement",
-      "EV charger preparation and installation",
+      "Panel upgrades and distribution improvements",
+      "Lighting, sockets, and switch installation",
+      "Home EV charger preparation and installation",
     ],
   },
   roofing: {
     title: "Roofing",
-    heroLabel: "Durability and weather protection",
+    heroLabel: "Protection and durability",
     shortDescription:
-      "Roof repair and replacement projects built around longevity, insulation, and weather resilience.",
+      "Roofing requests move more efficiently when professionals understand the roof type, condition, and urgency.",
     detailDescription:
-      "Roofing work varies by urgency, access, and roof condition, making a structured request important from the start.",
+      "Eco Home Palace helps homeowners prepare roof repair and replacement requests before local matching begins.",
     examples: [
-      "Roof leak repairs and inspections",
+      "Roof inspections and leak repair",
       "Partial or full roof replacement",
-      "Flashing, drainage, and weatherproofing work",
+      "Drainage, flashing, and weatherproofing work",
     ],
   },
   solar: {
     title: "Solar panels",
-    heroLabel: "Smart energy independence",
+    heroLabel: "Sustainable energy upgrades",
     shortDescription:
-      "Solar panel projects designed to reduce energy costs and improve long-term home performance.",
+      "Solar projects start stronger when roof, property, and location context are already clear.",
     detailDescription:
-      "Solar requests start stronger when the platform captures location, roof context, and homeowner goals before matching.",
+      "Eco Home Palace prepares solar requests for homeowners who want to compare trusted installers for energy savings and long-term value.",
     examples: [
-      "Residential solar panel installation",
+      "Solar panel installation for family homes",
       "Roof suitability and mounting preparation",
-      "Solar upgrades tied to energy savings goals",
+      "Solar expansion tied to lower energy bills",
     ],
   },
   "heat-pumps": {
     title: "Heat pump",
-    heroLabel: "Efficient comfort systems",
+    heroLabel: "Efficient heating and cooling",
     shortDescription:
-      "Heat pump and climate-control upgrades focused on efficiency, comfort, and future-ready home systems.",
+      "Heat pump projects depend on property type, current heating, and insulation quality before matching starts.",
     detailDescription:
-      "Heat pump projects depend on property type, insulation quality, and current heating setup, which makes intake clarity valuable.",
+      "We help homeowners prepare heat pump requests so professionals can assess fit, complexity, and timing more effectively.",
     examples: [
       "Air-to-water heat pump installation",
-      "Low-carbon heating modernization",
-      "Cooling and comfort upgrades for year-round use",
+      "Low-carbon heating system replacement",
+      "Climate comfort upgrades for year-round use",
     ],
   },
   "windows-doors": {
     title: "Window frames",
-    heroLabel: "Comfort, security, insulation",
+    heroLabel: "Efficiency and comfort upgrades",
     shortDescription:
-      "Window frame and exterior joinery upgrades for thermal performance, curb appeal, and quieter interiors.",
+      "Window frame projects can improve insulation, comfort, appearance, and long-term property performance.",
     detailDescription:
-      "Window and frame projects often combine insulation, design, and installation complexity that benefits from a better prepared request.",
+      "Eco Home Palace helps homeowners prepare window frame and exterior joinery requests before they compare offers.",
     examples: [
       "Window frame replacement for better insulation",
-      "Noise-reduction and comfort upgrades",
-      "Exterior frame renewal for premium homes",
+      "Noise reduction and glazing upgrades",
+      "Exterior joinery renewal for premium homes",
     ],
   },
   insulation: {
     title: "Insulation",
-    heroLabel: "Thermal performance upgrades",
+    heroLabel: "Comfort and energy savings",
     shortDescription:
-      "Insulation improvements that cut heat loss, support energy savings, and improve day-to-day comfort.",
+      "Insulation projects work best when property type and likely heat-loss areas are clear from the beginning.",
     detailDescription:
-      "Insulation projects move faster when professionals know where thermal losses occur and what type of property they are assessing.",
+      "We help homeowners prepare insulation requests for roof, wall, floor, and broader comfort upgrades before matching starts.",
     examples: [
-      "Roof and attic insulation projects",
-      "Wall and cavity insulation improvement",
-      "Floor insulation and comfort upgrades",
+      "Roof and attic insulation",
+      "Wall and cavity insulation",
+      "Floor insulation and cold-spot improvements",
     ],
   },
   bathroom: {
     title: "Bathroom renovation",
-    heroLabel: "Premium bathroom upgrades",
+    heroLabel: "Daily comfort and design",
     shortDescription:
-      "Bathroom renovation projects for better layouts, upgraded finishes, and high-comfort daily use.",
+      "Bathroom renovation requests combine layout, fixtures, finishes, and installation sequencing.",
     detailDescription:
-      "Bathroom work combines design choices, plumbing scope, and installation sequencing, making intake detail especially helpful.",
+      "Eco Home Palace helps homeowners prepare bathroom renovation requests for more relevant review by trusted professionals.",
     examples: [
-      "Bathroom redesign with new layout planning",
+      "Bathroom redesign and layout update",
       "Shower, vanity, and fixture replacement",
-      "Tilework, lighting, and premium finishing",
+      "Tilework, lighting, and finishing upgrades",
     ],
   },
   kitchen: {
     title: "Kitchen renovation",
-    heroLabel: "High-value kitchen renewal",
+    heroLabel: "High-value interior upgrade",
     shortDescription:
-      "Kitchen renovation support for cabinetry, layout upgrades, appliances, and refined everyday functionality.",
+      "Kitchen projects benefit from clarity around layout, cabinetry, appliances, and expected finish level.",
     detailDescription:
-      "Kitchen projects need clarity around layout, finishes, appliances, and timing before professionals can price and plan effectively.",
+      "We help homeowners prepare kitchen renovation requests so professionals can assess the project with better context from day one.",
     examples: [
       "Full kitchen redesign and installation",
-      "Cabinet, countertop, and appliance fitting",
+      "Cabinet, countertop, and appliance upgrades",
       "Layout optimization with premium finishes",
     ],
   },
   flooring: {
     title: "Flooring",
-    heroLabel: "Surface renewal and installation",
+    heroLabel: "Surface renewal and finish work",
     shortDescription:
-      "Flooring projects across wood, laminate, vinyl, and tile for residential upgrades and fit-outs.",
+      "Flooring projects depend on material choice, subfloor condition, and access.",
     detailDescription:
-      "Flooring work depends on materials, subfloor conditions, and property access, which the platform can capture before matching.",
+      "Eco Home Palace prepares flooring requests before homeowners compare trusted local professionals.",
     examples: [
       "Wood, laminate, and vinyl installation",
       "Tile replacement and surface renewal",
-      "Subfloor leveling and repair work",
+      "Subfloor repair and leveling",
     ],
   },
 };
@@ -237,108 +243,162 @@ export const publicServiceCatalog: FrontendService[] = [
     title: "Solar panels",
     eyebrow: "Clean energy",
     description:
-      "Roof-ready solar matching for homeowners focused on energy savings and smart upgrades.",
+      "Generate your own energy and reduce your electricity bill with trusted local installers.",
     intakeSlug: "solar",
     routeSlug: "solar",
+    ctaLabel: "Get quotes",
   },
   {
     slug: "home-battery",
     title: "Home battery",
     eyebrow: "Energy storage",
     description:
-      "Battery-ready energy projects for homeowners who want more control over usage and backup capacity.",
+      "Store more of your energy and increase your control over daily household usage.",
     intakeSlug: "solar",
     routeSlug: "solar",
+    ctaLabel: "Get quotes",
   },
   {
     slug: "heat-pump",
     title: "Heat pump",
     eyebrow: "Efficient comfort",
     description:
-      "Low-carbon heating and cooling projects matched to experienced local specialists.",
+      "Efficient heating with lower energy costs and better year-round comfort.",
     intakeSlug: "heat-pumps",
     routeSlug: "heat-pumps",
+    ctaLabel: "Get quotes",
   },
   {
     slug: "ev-charger",
     title: "EV charger",
     eyebrow: "Home charging",
     description:
-      "Electrical and charging-point requests prepared for households adding EV infrastructure.",
+      "Prepare your home for electric driving with safe, future-ready charging installation.",
     intakeSlug: "electrical",
     routeSlug: "electrical",
+    ctaLabel: "Get quotes",
   },
   {
     slug: "insulation",
     title: "Insulation",
     eyebrow: "Energy efficiency",
     description:
-      "Thermal upgrades that improve comfort, efficiency, and long-term property performance.",
+      "Improve comfort and reduce heat loss instantly with the right insulation solution.",
     intakeSlug: "insulation",
     routeSlug: "insulation",
+    ctaLabel: "Get quotes",
   },
   {
     slug: "window-frames",
     title: "Window frames",
     eyebrow: "Envelope upgrades",
     description:
-      "Window frame and exterior joinery projects for insulation, acoustic comfort, and style.",
+      "Upgrade insulation, appearance, and comfort with modern window frame solutions.",
     intakeSlug: "windows-doors",
     routeSlug: "windows-doors",
+    ctaLabel: "Get quotes",
   },
   {
     slug: "air-conditioning",
     title: "Air conditioning",
     eyebrow: "Cooling comfort",
     description:
-      "Cooling and climate-control requests for properties that need smarter seasonal comfort.",
+      "Create a smarter indoor climate with reliable cooling and comfort upgrades.",
     intakeSlug: "heat-pumps",
     routeSlug: "heat-pumps",
+    ctaLabel: "Get quotes",
   },
   {
     slug: "renovation",
     title: "Renovation",
-    eyebrow: "Whole-home work",
+    eyebrow: "Whole-home upgrades",
     description:
-      "Multi-trade renovation projects matched with professionals who can assess scope fast.",
+      "Plan and compare renovation work with professionals who understand scope and timing.",
     intakeSlug: "renovation",
     routeSlug: "renovation",
+    ctaLabel: "Get quotes",
   },
   {
     slug: "bathroom-renovation",
     title: "Bathroom renovation",
-    eyebrow: "Luxury daily use",
+    eyebrow: "Comfort and value",
     description:
-      "Bathroom transformations with the right mix of plumbing, finishes, and installation detail.",
+      "Transform your bathroom with a clearer request and more relevant local offers.",
     intakeSlug: "bathroom",
     routeSlug: "bathroom",
+    ctaLabel: "Get quotes",
   },
   {
     slug: "kitchen-renovation",
     title: "Kitchen renovation",
-    eyebrow: "High-value interiors",
+    eyebrow: "High-value interior",
     description:
-      "Kitchen upgrades covering layout, cabinetry, appliances, and premium finishing work.",
+      "Upgrade layout, function, and finishes with a better-prepared project request.",
     intakeSlug: "kitchen",
     routeSlug: "kitchen",
+    ctaLabel: "Get quotes",
   },
   {
     slug: "electrical-work",
     title: "Electrical work",
-    eyebrow: "Safe and future-ready",
+    eyebrow: "Safety and power",
     description:
-      "Electrical projects ranging from rewiring and lighting to smart-home and power upgrades.",
+      "Match electrical work with suitable professionals for safe and future-ready upgrades.",
     intakeSlug: "electrical",
     routeSlug: "electrical",
+    ctaLabel: "Get quotes",
   },
   {
     slug: "plumbing",
     title: "Plumbing",
     eyebrow: "Practical home systems",
     description:
-      "Repairs, upgrades, and plumbing installations prepared for faster professional review.",
+      "Fix, upgrade, or replace core plumbing work with trusted local professionals.",
     intakeSlug: "plumbing",
     routeSlug: "plumbing",
+    ctaLabel: "Get quotes",
+  },
+];
+
+export const homepageServiceHighlights: FrontendService[] = [
+  {
+    slug: "solar-panels-home",
+    title: "Solar Panels",
+    eyebrow: "Clean energy",
+    description:
+      "Generate your own energy and reduce your electricity bill.",
+    intakeSlug: "solar",
+    routeSlug: "solar",
+    ctaLabel: "Get quotes",
+  },
+  {
+    slug: "heat-pumps-home",
+    title: "Heat Pumps",
+    eyebrow: "Efficient comfort",
+    description: "Efficient heating with lower energy costs.",
+    intakeSlug: "heat-pumps",
+    routeSlug: "heat-pumps",
+    ctaLabel: "Get quotes",
+  },
+  {
+    slug: "insulation-home",
+    title: "Insulation",
+    eyebrow: "Better comfort",
+    description:
+      "Improve comfort and reduce heat loss instantly.",
+    intakeSlug: "insulation",
+    routeSlug: "insulation",
+    ctaLabel: "Get quotes",
+  },
+  {
+    slug: "windows-renovation-home",
+    title: "Windows & Renovation",
+    eyebrow: "Value upgrades",
+    description:
+      "Upgrade your home for efficiency and value.",
+    intakeSlug: "renovation",
+    routeSlug: "renovation",
+    ctaLabel: "Get quotes",
   },
 ];
 
@@ -347,81 +407,81 @@ export const cities: Record<CitySlug, CityData> = {
     name: "Amsterdam",
     country: "Netherlands",
     shortDescription:
-      "A premium launch market for renovation, energy, and high-intent homeowner requests.",
+      "Amsterdam is a key market for solar, renovation, insulation, and premium energy upgrades.",
     detailDescription:
-      "Amsterdam is an active Eco Home Palace market where homeowners use structured matching to move from interest to qualified project requests quickly.",
+      "Eco Home Palace helps Amsterdam homeowners move from project interest to trusted local matching with a clearer request flow.",
   },
   rotterdam: {
     name: "Rotterdam",
     country: "Netherlands",
     shortDescription:
-      "A practical urban market for energy upgrades, renovation, and modern home improvement work.",
+      "Rotterdam is a strong market for renovation, sustainable upgrades, and practical home improvement projects.",
     detailDescription:
-      "Rotterdam supports homeowners looking for a clearer path from service discovery into qualified matching.",
+      "Eco Home Palace helps Rotterdam homeowners prepare clearer requests before comparing suitable local professionals.",
   },
   brussels: {
     name: "Brussels",
     country: "Belgium",
     shortDescription:
-      "An international home-services market suited to renovation, energy, and interior upgrades.",
+      "Brussels is a premium international market for renovation, insulation, and energy upgrades.",
     detailDescription:
-      "Brussels is presented as a strong city for premium matching across practical and high-value home projects.",
+      "Eco Home Palace gives Brussels homeowners a structured path into local project matching with trusted professionals.",
   },
   berlin: {
     name: "Berlin",
     country: "Germany",
     shortDescription:
-      "A high-demand city for renovation, climate upgrades, and electrical modernization.",
+      "Berlin is one of our strongest markets for heat pumps, solar, and electrical upgrades.",
     detailDescription:
-      "Berlin is one of the core markets where service intent and city context combine before intake begins.",
+      "Eco Home Palace helps Berlin homeowners compare suitable local professionals with clearer service and location context.",
   },
   london: {
     name: "London",
     country: "United Kingdom",
     shortDescription:
-      "A broad premium market for major interior, energy, and comfort-focused home upgrades.",
+      "London is a broad market for renovation, insulation, EV charging, and premium home upgrades.",
     detailDescription:
-      "London is featured as a city where homeowners can quickly frame project scope before professional review starts.",
+      "Eco Home Palace helps London homeowners prepare stronger requests before comparing suitable professionals.",
   },
   paris: {
     name: "Paris",
     country: "France",
     shortDescription:
-      "A strong apartment and renovation market with demand across insulation, electrical, and premium upgrades.",
+      "Paris is a major city for apartment renovation, insulation, and electrical modernization.",
     detailDescription:
-      "Paris supports a premium matching narrative for homeowners who want clarity before comparing offers.",
+      "Eco Home Palace helps Paris homeowners move into matching with more trust, structure, and local relevance.",
   },
   madrid: {
     name: "Madrid",
     country: "Spain",
     shortDescription:
-      "A growing city for insulation, renovation, and comfort-improvement projects.",
+      "Madrid is a growing market for insulation, climate comfort, and high-intent renovation work.",
     detailDescription:
-      "Madrid helps extend Eco Home Palace across Southern Europe with a practical, conversion-driven request flow.",
+      "Eco Home Palace helps Madrid homeowners frame their project clearly before local professional review begins.",
   },
   barcelona: {
     name: "Barcelona",
     country: "Spain",
     shortDescription:
-      "A design-conscious market for renovation, window upgrades, and energy-efficiency work.",
+      "Barcelona blends renovation demand with design-led home upgrades and insulation work.",
     detailDescription:
-      "Barcelona gives homeowners a premium starting point for city-aware service discovery and intake.",
+      "Eco Home Palace gives Barcelona homeowners a premium path into trusted local comparison.",
   },
   milan: {
     name: "Milan",
     country: "Italy",
     shortDescription:
-      "A premium urban market where design-led interiors and performance upgrades overlap.",
+      "Milan is a premium market for renovation, bathrooms, kitchens, and design-focused upgrades.",
     detailDescription:
-      "Milan reflects the broader platform vision: polished demand capture with a premium first impression.",
+      "Eco Home Palace helps Milan homeowners prepare higher-quality requests before matching starts.",
   },
   dubai: {
     name: "Dubai",
     country: "United Arab Emirates",
     shortDescription:
-      "A premium expansion market for ambitious home upgrades, energy systems, and property improvement.",
+      "Dubai is a fast-growing premium market for energy systems, cooling, and high-value home improvement work.",
     detailDescription:
-      "Dubai represents the global reach of Eco Home Palace and the premium positioning of the public platform.",
+      "Eco Home Palace helps Dubai homeowners move into matching with trust, clarity, and local context already in place.",
   },
 };
 
@@ -430,7 +490,7 @@ export const countryMarkets: MarketCountry[] = [
     slug: "netherlands",
     name: "Netherlands",
     description:
-      "High-intent energy and renovation projects across major Dutch homeowner markets.",
+      "A leading market for solar, insulation, renovation, and comfort-focused home upgrades.",
     cities: [
       { slug: "amsterdam", name: "Amsterdam" },
       { slug: "rotterdam", name: "Rotterdam" },
@@ -444,21 +504,21 @@ export const countryMarkets: MarketCountry[] = [
     slug: "germany",
     name: "Germany",
     description:
-      "Strong demand for heat pumps, insulation, and modern electrical work in top German cities.",
+      "Strong demand for heat pumps, insulation, solar, and electrical modernization.",
     cities: [
       { slug: "berlin", name: "Berlin" },
       { slug: "hamburg", name: "Hamburg" },
       { slug: "munich", name: "Munich" },
       { slug: "cologne", name: "Cologne" },
       { slug: "frankfurt", name: "Frankfurt" },
-      { slug: "dusseldorf", name: "Dusseldorf" },
+      { slug: "dusseldorf", name: "Düsseldorf" },
     ],
   },
   {
     slug: "united-kingdom",
     name: "United Kingdom",
     description:
-      "Premium home-improvement demand across major UK cities with strong quote comparison potential.",
+      "A large market for insulation, EV charging, renovation, and energy-efficiency projects.",
     cities: [
       { slug: "london", name: "London" },
       { slug: "manchester", name: "Manchester" },
@@ -472,7 +532,7 @@ export const countryMarkets: MarketCountry[] = [
     slug: "france",
     name: "France",
     description:
-      "Apartment-led renovation and energy-efficiency demand in France's biggest homeowner markets.",
+      "A strong market for apartment renovation, insulation, and electrical upgrades.",
     cities: [
       { slug: "paris", name: "Paris" },
       { slug: "lyon", name: "Lyon" },
@@ -486,13 +546,13 @@ export const countryMarkets: MarketCountry[] = [
     slug: "spain",
     name: "Spain",
     description:
-      "Renovation, climate comfort, and insulation projects in high-density Spanish cities.",
+      "A growing region for insulation, cooling, renovation, and comfort-focused projects.",
     cities: [
       { slug: "madrid", name: "Madrid" },
       { slug: "barcelona", name: "Barcelona" },
       { slug: "valencia", name: "Valencia" },
       { slug: "seville", name: "Seville" },
-      { slug: "malaga", name: "Malaga" },
+      { slug: "malaga", name: "Málaga" },
       { slug: "bilbao", name: "Bilbao" },
     ],
   },
@@ -500,7 +560,7 @@ export const countryMarkets: MarketCountry[] = [
     slug: "italy",
     name: "Italy",
     description:
-      "Premium interior and building-envelope upgrades across Italy's major urban markets.",
+      "Premium demand for renovation, windows, kitchens, bathrooms, and energy upgrades.",
     cities: [
       { slug: "rome", name: "Rome" },
       { slug: "milan", name: "Milan" },
@@ -514,21 +574,21 @@ export const countryMarkets: MarketCountry[] = [
     slug: "belgium",
     name: "Belgium",
     description:
-      "Compact, high-value home-improvement markets with strong cross-city contractor demand.",
+      "A compact market with strong demand for renovation, insulation, and energy improvement projects.",
     cities: [
       { slug: "brussels", name: "Brussels" },
       { slug: "antwerp", name: "Antwerp" },
       { slug: "ghent", name: "Ghent" },
       { slug: "bruges", name: "Bruges" },
       { slug: "leuven", name: "Leuven" },
-      { slug: "liege", name: "Liege" },
+      { slug: "liege", name: "Liège" },
     ],
   },
   {
     slug: "united-states",
     name: "United States",
     description:
-      "Large homeowner markets with strong demand for premium energy, renovation, and charging projects.",
+      "Large urban markets for solar, home energy, cooling, renovation, and electrical upgrades.",
     cities: [
       { slug: "new-york", name: "New York" },
       { slug: "los-angeles", name: "Los Angeles" },
@@ -542,7 +602,7 @@ export const countryMarkets: MarketCountry[] = [
     slug: "united-arab-emirates",
     name: "United Arab Emirates",
     description:
-      "Premium, design-led property upgrades across fast-moving UAE homeowner markets.",
+      "A premium market for cooling, solar, batteries, and design-led property upgrades.",
     cities: [
       { slug: "dubai", name: "Dubai" },
       { slug: "abu-dhabi", name: "Abu Dhabi" },
@@ -555,7 +615,7 @@ export const countryMarkets: MarketCountry[] = [
     slug: "india",
     name: "India",
     description:
-      "Fast-growing urban home-upgrade markets with strong appetite for quality professional matching.",
+      "Fast-growing urban markets for cooling, electrical, renovation, and energy-efficient upgrades.",
     cities: [
       { slug: "mumbai", name: "Mumbai" },
       { slug: "delhi", name: "Delhi" },
@@ -587,115 +647,86 @@ export const featuredCitySlugs: CitySlug[] = [
   "dubai",
 ];
 
+export const heroTrustBar = [
+  "4.8/5 homeowner rating",
+  "Verified professionals",
+  "Active in 10+ countries",
+];
+
+export const heroChecks = [
+  "Free",
+  "No obligation",
+  "Only trusted professionals",
+];
+
 export const homeHowItWorks = [
   {
-    step: 1,
-    title: "Select your project",
-    desc: "Choose the service that best matches your home improvement plans.",
-  },
-  {
-    step: 2,
-    title: "Add country and city",
-    desc: "We use location context to prepare a more relevant matching request.",
-  },
-  {
-    step: 3,
-    title: "Review with confidence",
-    desc: "Your request is prepared before it moves toward suitable professionals.",
-  },
-  {
-    step: 4,
-    title: "Get matched fast",
-    desc: "Matching usually starts within 24 hours after you submit your intake.",
-  },
-];
-
-export const cityHowItWorks = [
-  {
     step: "1",
-    title: "Choose your city market",
-    description:
-      "Start from the city that best reflects where the project will happen.",
+    title: "Tell us about your home",
+    desc: "Answer a few quick questions about your property and needs.",
   },
   {
     step: "2",
-    title: "Select the right service",
-    description:
-      "Use the city context to narrow down the service you need and move faster.",
+    title: "Get matched with certified professionals",
+    desc: "We connect you with trusted experts in your area.",
   },
   {
     step: "3",
-    title: "Submit your request",
-    description:
-      "Continue into intake with local context already prepared for matching.",
+    title: "Receive and compare offers",
+    desc: "Choose the best solution based on price, quality and reviews.",
   },
 ];
 
-export const serviceHowItWorks = [
+export const authorityStats: TrustStat[] = [
+  { value: "10,000+", label: "homeowners matched" },
+  { value: "10+", label: "countries active" },
+  { value: "4.8/5", label: "homeowner rating" },
+];
+
+export const partnerMarks = [
+  "Professional network",
+  "Sustainable home upgrades",
+  "Verified local professionals",
+  "Premium homeowner support",
+];
+
+export const featuredTestimonial = {
+  quote:
+    "We found a reliable installer within 24 hours and now save hundreds every month.",
+  name: "Mark",
+  city: "Rotterdam",
+};
+
+export const homeownerReviews: ReviewCard[] = [
   {
-    step: "1",
-    title: "Choose the right service",
-    description:
-      "Start from the service page that best matches your project goals.",
+    name: "Sophie",
+    city: "Amsterdam",
+    quote: "Everything was arranged quickly and professionally.",
+    date: "2026",
   },
   {
-    step: "2",
-    title: "Add your location",
-    description:
-      "Share city and country context so professionals can review the request properly.",
+    name: "Daniel",
+    city: "Berlin",
+    quote: "We received multiple offers and saved over €2,000 per year.",
+    date: "2026",
   },
   {
-    step: "3",
-    title: "Move into matching",
-    description:
-      "Your request is then prepared for suitable professional review.",
+    name: "Luca",
+    city: "Milan",
+    quote: "Simple, fast and reliable platform.",
+    date: "2026",
   },
 ];
 
-export const combinationHowItWorks = [
-  {
-    step: "1",
-    title: "Choose the best-fit combination",
-    description:
-      "Start with a service and city combination that already reflects your project intent.",
-  },
-  {
-    step: "2",
-    title: "Prepare the request",
-    description:
-      "Continue into intake with stronger service and location context already in place.",
-  },
-  {
-    step: "3",
-    title: "Begin matching",
-    description:
-      "Your request is prepared for suitable local professionals within the matching flow.",
-  },
-];
+export const testimonials = homeownerReviews.map((item) => ({
+  ...item,
+  rating: "4.8/5",
+}));
 
-export const trustPoints = [
-  {
-    title: "Prepared requests",
-    desc: "Projects are framed before they reach suitable professionals.",
-  },
-  {
-    title: "Fast local matching",
-    desc: "Most matching flows begin within 24 hours of intake submission.",
-  },
-  {
-    title: "High-intent homeowners",
-    desc: "The experience is designed to capture clear, conversion-ready requests.",
-  },
-  {
-    title: "Premium international direction",
-    desc: "Eco Home Palace is built as a luxury lead-generation platform for major markets.",
-  },
-];
-
-export const combinationTrustPoints = [
-  "Project matching starts with better service and city context",
-  "Requests are free and without obligation",
-  "Qualified local matching begins quickly after intake",
+export const trustStats: TrustStat[] = [
+  { value: "10,000+", label: "homeowners matched" },
+  { value: "4.8/5", label: "average rating" },
+  { value: "10+", label: "countries active" },
 ];
 
 export const publicTrustPoints = [
@@ -704,84 +735,101 @@ export const publicTrustPoints = [
   "Matching based on your project",
   "Response within 24 hours",
   "International platform vision",
+  "Professionals reviewed for service area, expertise, availability and customer communication",
 ];
 
-export const trustStats: TrustStat[] = [
-  {
-    value: "10,000+",
-    label: "homeowners matched",
-  },
-  {
-    value: "4.8/5",
-    label: "average rating",
-  },
-  {
-    value: "10+",
-    label: "countries active",
-  },
+export const popularProjectSearches: SearchLink[] = [
+  { label: "Solar panels in Amsterdam", href: "/solar/amsterdam" },
+  { label: "Heat pump in Berlin", href: "/heat-pumps/berlin" },
+  { label: "EV charger in London", href: "/electrical/london" },
+  { label: "Renovation in Paris", href: "/renovation/paris" },
+  { label: "Insulation in Madrid", href: "/insulation/madrid" },
+  { label: "Home battery in Dubai", href: "/solar/dubai" },
 ];
 
-export const heroChecks = [
-  "Free and without obligation",
-  "Prepared request flow before matching",
-  "Trusted local professional focus",
-];
+export const regionSpotlight = {
+  title: "Available in your region",
+  currentRegion: "Netherlands",
+  description:
+    "Showing results for Netherlands. Eco Home Palace starts with a global platform experience and then helps you move into the right local market when you are ready.",
+  cities: ["Amsterdam", "Rotterdam", "The Hague", "Utrecht"],
+};
 
-export const testimonials: Testimonial[] = [
+export const cityHowItWorks = [
   {
-    name: "Sanne de Vries",
-    city: "Amsterdam",
-    quote:
-      "The request flow felt clear and premium. We received serious responses for our solar project much faster than expected.",
-    rating: "5/5",
+    step: "1",
+    title: "Choose your project category",
+    description:
+      "Start with the type of upgrade or installation you want for your home.",
   },
   {
-    name: "James Fletcher",
-    city: "London",
-    quote:
-      "Instead of chasing contractors one by one, we submitted one structured request and compared strong options for our renovation.",
-    rating: "5/5",
+    step: "2",
+    title: "Add local project context",
+    description:
+      "Use city and country details to prepare a more relevant matching request.",
   },
   {
-    name: "Claire Moreau",
-    city: "Paris",
-    quote:
-      "The platform made our bathroom renovation request feel prepared and credible before we even had the first call.",
-    rating: "4.8/5",
+    step: "3",
+    title: "Compare suitable professionals",
+    description:
+      "Continue into intake and receive a clearer path toward trusted local offers.",
   },
 ];
 
-export const popularProjectSearches = [
+export const serviceHowItWorks = [
   {
-    label: "Solar panels in Amsterdam",
-    href: "/solar/amsterdam",
+    step: "1",
+    title: "Choose the right project path",
+    description:
+      "Start with the service that best matches the outcome you want for your home.",
   },
   {
-    label: "Heat pump in Berlin",
-    href: "/heat-pumps/berlin",
+    step: "2",
+    title: "Add local information",
+    description:
+      "Share where the project is located so the request is more relevant from the start.",
   },
   {
-    label: "EV charger in London",
-    href: "/electrical/london",
+    step: "3",
+    title: "Move into comparison",
+    description:
+      "Continue into intake and prepare the request for trusted local professionals.",
+  },
+];
+
+export const combinationHowItWorks = [
+  {
+    step: "1",
+    title: "Start with a strong local fit",
+    description:
+      "This page already combines the right service with the city where the project will happen.",
   },
   {
-    label: "Renovation in Paris",
-    href: "/renovation/paris",
+    step: "2",
+    title: "Prepare your project request",
+    description:
+      "Continue into intake with stronger service and location context already in place.",
   },
   {
-    label: "Insulation in Madrid",
-    href: "/insulation/madrid",
-  },
-  {
-    label: "Home battery in Dubai",
-    href: "/solar/dubai",
+    step: "3",
+    title: "Compare suitable professionals",
+    description:
+      "Your request moves toward trusted local professionals who fit the project.",
   },
 ];
 
 export const installerBenefits = [
-  "Receive qualified homeowner requests from premium markets",
-  "Review projects with service and city context already prepared",
-  "Grow visibility as Eco Home Palace expands internationally",
+  "Receive project requests from homeowners with clear intent and location context",
+  "Join a premium international platform focused on sustainable home solutions",
+  "Spend less time qualifying and more time responding to relevant opportunities",
+];
+
+export const footerCityLinks = [
+  { label: "Amsterdam", href: "/cities/amsterdam" },
+  { label: "Berlin", href: "/cities/berlin" },
+  { label: "London", href: "/cities/london" },
+  { label: "Paris", href: "/cities/paris" },
+  { label: "Dubai", href: "/cities/dubai" },
 ];
 
 export function slugify(value: string) {

@@ -1,0 +1,11 @@
+# Allow all web crawlers to access the site
+User-agent: *
+Allow: /
+
+# Disallow admin and private areas
+Disallow: /board
+Disallow: /founder-login
+Disallow: /api/
+
+# Sitemap location (add when available)
+# Sitemap: https://ecohomepalace.com/sitemap.xml

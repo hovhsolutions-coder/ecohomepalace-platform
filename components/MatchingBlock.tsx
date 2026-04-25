@@ -22,29 +22,28 @@ export default function MatchingBlock() {
     ? `/intake?service=${selectedServiceOption.intakeSlug}&country=${country}&city=${city}`
     : '/intake';
 
-  let feedback = 'Choose your project details to begin your free comparison.';
+  let feedback = 'Tell us your project — get matched instantly';
   if (selectedServiceOption) {
-    feedback = 'We can match this project with suitable professionals.';
+    feedback = 'Great choice — now select your location.';
+  }
+  if (country) {
+    feedback = 'Almost there — choose your city.';
   }
   if (selectedCity) {
-    feedback = `Matching in ${selectedCity.name} usually starts within 24 hours.`;
-  }
-  if (isComplete) {
-    feedback = 'Ready to prepare your request.';
+    feedback = 'Ready to see your matches.';
   }
 
   return (
-    <section className="glass-panel relative overflow-hidden rounded-[1.75rem] p-6 sm:p-8">
+    <section className="glass-panel relative overflow-hidden rounded-[1.85rem] p-6 sm:p-8">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(31,93,69,0.28)] to-transparent" />
 
-      <div className="mb-7">
-        <p className="section-kicker">Start your comparison</p>
+      <div className="mb-8">
+        <p className="section-kicker">START YOUR COMPARISON</p>
         <h2 className="mt-3 text-2xl font-semibold text-[var(--foreground)] md:text-[2rem]">
-          Compare trusted professionals near you
+          Tell us your project — get matched instantly
         </h2>
         <p className="mt-3 max-w-xl text-sm leading-7 text-[var(--foreground-soft)]">
-          Select your service, country, and city. We use that information to
-          prepare a more relevant request before you continue.
+          We'll use this to connect you with the right professionals in your area.
         </p>
       </div>
 
@@ -53,7 +52,7 @@ export default function MatchingBlock() {
           <span className="mb-2 block text-sm font-medium text-[var(--foreground-soft)]">
             Select service
           </span>
-          <div className="premium-select">
+          <div className={`premium-select transition-all duration-200 ${selectedService ? 'border-[rgba(47,138,103,0.3)] shadow-[0_0_0_3px_rgba(47,138,103,0.1)]' : ''}`}>
             <select
               value={selectedService}
               onChange={(event) => setSelectedService(event.target.value)}
@@ -74,7 +73,7 @@ export default function MatchingBlock() {
             <span className="mb-2 block text-sm font-medium text-[var(--foreground-soft)]">
               Select country
             </span>
-            <div className="premium-select">
+            <div className={`premium-select transition-all duration-200 ${country ? 'border-[rgba(47,138,103,0.3)] shadow-[0_0_0_3px_rgba(47,138,103,0.1)]' : ''}`}>
               <select
                 value={country}
                 onChange={(event) => {
@@ -99,9 +98,9 @@ export default function MatchingBlock() {
               Select city
             </span>
             <div
-              className={`premium-select ${
+              className={`premium-select transition-all duration-200 ${
                 country ? '' : 'cursor-not-allowed opacity-60'
-              }`}
+              } ${city ? 'border-[rgba(47,138,103,0.3)] shadow-[0_0_0_3px_rgba(47,138,103,0.1)]' : ''}`}
             >
               <select
                 value={city}
@@ -132,17 +131,11 @@ export default function MatchingBlock() {
         </div>
       </div>
 
-      <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex flex-wrap gap-2 text-xs">
-          <span className="emerald-accent rounded-full px-3 py-1.5">
-            Free request
-          </span>
-          <span className="emerald-accent rounded-full px-3 py-1.5">
-            No obligation
-          </span>
-          <span className="emerald-accent rounded-full px-3 py-1.5">
-            Trusted professionals
-          </span>
+      <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-1">
+          <p className="text-xs text-[var(--foreground-muted)]">
+            Most homeowners receive 2–4 offers within 24 hours
+          </p>
         </div>
 
         <div className="flex flex-col items-end gap-2">
@@ -154,16 +147,16 @@ export default function MatchingBlock() {
               }
             }}
             aria-disabled={!isComplete}
-            className={`gold-button inline-flex min-h-14 items-center justify-center rounded-full px-7 py-3 text-sm font-semibold ${
-              isComplete ? '' : 'opacity-50 cursor-not-allowed'
+            className={`gold-button inline-flex min-h-14 items-center justify-center rounded-full px-7 py-3 text-sm font-semibold transition-all duration-200 ${
+              isComplete 
+                ? 'shadow-[0_16px_36px_rgba(31,93,69,0.24)] hover:shadow-[0_20px_44px_rgba(31,93,69,0.28)]' 
+                : 'opacity-50 cursor-not-allowed'
             }`}
           >
-            Compare installers in your area
+            {isComplete ? 'See your 3 matches' : 'Show my matches'}
           </a>
           <p className="text-xs text-[var(--foreground-muted)]">
-            {isComplete
-              ? "Ready — we'll guide you through the next steps."
-              : "Select a service, country and city to continue."}
+            Takes less than 30 seconds
           </p>
         </div>
       </div>

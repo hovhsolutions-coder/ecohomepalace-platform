@@ -71,6 +71,7 @@ export type ReviewCard = {
   city: string;
   quote: string;
   date?: string;
+  result?: string;
 };
 
 export type SearchLink = {
@@ -703,18 +704,21 @@ export const homeownerReviews: ReviewCard[] = [
     city: "Amsterdam",
     quote: "Everything was arranged quickly and professionally.",
     date: "2026",
+    result: "Matched within 24 hours",
   },
   {
     name: "Daniel",
     city: "Berlin",
     quote: "We received multiple offers and saved over €2,000 per year.",
     date: "2026",
+    result: "Compared multiple offers",
   },
   {
     name: "Luca",
     city: "Milan",
     quote: "Simple, fast and reliable platform.",
     date: "2026",
+    result: "Clearer pricing decision",
   },
 ];
 
@@ -909,3 +913,129 @@ export function formatCityLabel(value?: string) {
 export function getCountrySlugFromName(name: string) {
   return slugify(name);
 }
+
+// Homepage V2 Data
+export const problemCards = [
+  {
+    title: "Prices vary massively",
+    description: "Quotes for the same project can differ by thousands — without clear reasons.",
+  },
+  {
+    title: "Quality is unclear",
+    description: "It's hard to know if an installer is experienced, available, or reliable.",
+  },
+  {
+    title: "Too many options, no guidance",
+    description: "Endless directories with no way to filter for your specific needs.",
+  },
+  {
+    title: "No idea who to trust",
+    description: "Reviews are sparse, certifications are unclear, and risk feels high.",
+  },
+];
+
+export const solutionCards = [
+  {
+    title: "We filter and verify professionals",
+    description: "We review service area, expertise, availability, and communication quality.",
+  },
+  {
+    title: "We match based on your exact needs",
+    description: "Your project type, location, and context guide the matching process.",
+  },
+  {
+    title: "You receive multiple offers to compare",
+    description: "Get options from professionals who fit your specific requirements.",
+  },
+  {
+    title: "You stay in control with no obligation",
+    description: "Free to start, free to compare, and no pressure to decide.",
+  },
+];
+
+export const whatYouGetCards = [
+  {
+    title: "Multiple offers",
+    description: "Receive offers from professionals who match your project and location.",
+  },
+  {
+    title: "Verified professionals",
+    description: "Compare providers reviewed for service area, expertise, availability and communication.",
+  },
+  {
+    title: "Clear comparison",
+    description: "Understand your options before making a decision.",
+  },
+  {
+    title: "No pressure",
+    description: "Free to start, no obligation, and no spam.",
+  },
+];
+
+export const qualityEngineModules = [
+  {
+    title: "Service-area fit",
+    description: "Professionals are active in your specific city or region.",
+  },
+  {
+    title: "Project expertise",
+    description: "Experience with your type of home upgrade or installation.",
+  },
+  {
+    title: "Availability signals",
+    description: "Capacity to take on new projects in your timeframe.",
+  },
+  {
+    title: "Communication quality",
+    description: "Responsiveness and clarity in homeowner interactions.",
+  },
+  {
+    title: "Homeowner-first comparison",
+    description: "We structure information so you can compare confidently.",
+  },
+];
+
+export const serviceProblemCards = [
+  {
+    title: "Solar Panels",
+    eyebrow: "Clean energy",
+    description: "Lower electricity costs and produce your own energy.",
+    problem: "Hard to compare installers, unclear pricing, and uncertain quality.",
+    cta: "Get quotes",
+  },
+  {
+    title: "Heat Pumps",
+    eyebrow: "Efficient comfort",
+    description: "Improve heating efficiency and reduce energy use.",
+    problem: "Complex systems, varying quotes, and technical uncertainty.",
+    cta: "Get quotes",
+  },
+  {
+    title: "Insulation",
+    eyebrow: "Better comfort",
+    description: "Make your home warmer, quieter and more efficient.",
+    problem: "Many options, unclear ROI, and installation quality concerns.",
+    cta: "Get quotes",
+  },
+  {
+    title: "Windows & Renovation",
+    eyebrow: "Value upgrades",
+    description: "Upgrade comfort, energy performance and property value.",
+    problem: "Large investment, variable quality, and timeline uncertainty.",
+    cta: "Get quotes",
+  },
+];
+
+export const globalMarkets = [
+  { name: "Netherlands", flag: "🇳🇱" },
+  { name: "Germany", flag: "🇩🇪" },
+  { name: "United Kingdom", flag: "🇬🇧" },
+  { name: "France", flag: "🇫🇷" },
+  { name: "Spain", flag: "🇪🇸" },
+  { name: "Italy", flag: "🇮🇹" },
+  { name: "Belgium", flag: "🇧🇪" },
+  { name: "United States", flag: "🇺🇸" },
+  { name: "United Arab Emirates", flag: "🇦🇪" },
+  { name: "India", flag: "🇮🇳" },
+];
+

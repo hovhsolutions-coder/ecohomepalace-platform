@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import MatchingBlock from "@/components/MatchingBlock";
+import HeroV4 from "@/components/HeroV4";
 import PopularSearches from "@/components/PopularSearches";
 import PublicFooter from "@/components/PublicFooter";
 import PublicHeader from "@/components/PublicHeader";
@@ -31,98 +31,8 @@ export default function Home() {
     <main className="premium-shell text-[var(--foreground)]">
       <PublicHeader />
 
-      {/* SECTION 1 — HERO V3: RESULT-FOCUSED */}
-      <section className="relative overflow-hidden px-6 pb-16 pt-10 md:pt-16">
-        <div className="absolute inset-0 bg-gradient-to-b from-[rgba(31,93,69,0.03)] via-transparent to-transparent"></div>
-        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1fr_0.95fr] lg:items-center">
-          <div className="max-w-3xl">
-            <div className="mb-6 flex flex-wrap gap-3 text-sm">
-              <span className="inline-flex items-center gap-2 text-[var(--foreground-soft)]">
-                <span className="text-[var(--gold-300)]">⭐</span>
-                <span>4.8/5 from 10,000+ homeowners</span>
-              </span>
-              <span className="inline-flex items-center gap-2 text-[var(--foreground-soft)]">
-                <span className="text-[var(--primary-600)]">✔</span>
-                <span>Verified professionals only</span>
-              </span>
-              <span className="inline-flex items-center gap-2 text-[var(--foreground-soft)]">
-                <span className="text-[var(--primary-600)]">✔</span>
-                <span>Active in 10+ countries</span>
-              </span>
-            </div>
-            
-            <h1 className="max-w-[600px] text-[clamp(2.8rem,6vw,4.2rem)] font-semibold leading-[1.02] text-[var(--foreground)]">
-              Compare 3 verified installers in your area — in minutes
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--foreground-soft)]">
-              No searching, no uncertainty. Just clear options you can trust for your home.
-            </p>
-
-            <div className="mt-8">
-              <Link
-                href="/intake"
-                className="gold-button inline-flex min-h-16 items-center justify-center rounded-full px-10 py-4 text-lg font-semibold shadow-[0_16px_36px_rgba(31,93,69,0.24)] transition hover:shadow-[0_20px_44px_rgba(31,93,69,0.28)]"
-              >
-                Get 3 free quotes
-              </Link>
-              <p className="mt-4 text-sm text-[var(--foreground-muted)]">
-                Free • No obligation • Takes less than 30 seconds
-              </p>
-            </div>
-          </div>
-
-          <div className="result-panel relative overflow-hidden rounded-[1.85rem] border border-[rgba(31,93,69,0.12)] bg-white shadow-[0_24px_56px_rgba(31,93,69,0.15)]">
-            <div className="border-b border-[rgba(20,35,25,0.08)] px-6 py-4 bg-gradient-to-r from-[rgba(47,138,103,0.04)] to-transparent">
-              <p className="text-sm font-semibold text-[var(--foreground)]">Your matches in Amsterdam</p>
-              <p className="mt-1 text-xs text-[var(--foreground-soft)]">Matched within 24 hours</p>
-            </div>
-            
-            <div className="divide-y divide-[rgba(20,35,25,0.06)]">
-              <div className="px-6 py-4 flex items-center justify-between gap-4">
-                <div className="flex-1">
-                  <p className="font-semibold text-[var(--foreground)]">SolarPro Netherlands</p>
-                  <div className="mt-1 flex items-center gap-3 text-xs text-[var(--foreground-soft)]">
-                    <span className="text-[var(--gold-300)]">⭐ 4.9</span>
-                    <span>•</span>
-                    <span>€4,500 – €6,200</span>
-                  </div>
-                </div>
-                <span className="text-xs font-medium text-[var(--primary-600)] bg-[rgba(47,138,103,0.08)] px-3 py-1.5 rounded-full">Available this week</span>
-              </div>
-              
-              <div className="px-6 py-4 flex items-center justify-between gap-4">
-                <div className="flex-1">
-                  <p className="font-semibold text-[var(--foreground)]">Green Energy Solutions</p>
-                  <div className="mt-1 flex items-center gap-3 text-xs text-[var(--foreground-soft)]">
-                    <span className="text-[var(--gold-300)]">⭐ 4.7</span>
-                    <span>•</span>
-                    <span>€5,100 – €6,800</span>
-                  </div>
-                </div>
-                <span className="text-xs font-medium text-[var(--primary-600)] bg-[rgba(47,138,103,0.08)] px-3 py-1.5 rounded-full">Available this week</span>
-              </div>
-              
-              <div className="px-6 py-4 flex items-center justify-between gap-4">
-                <div className="flex-1">
-                  <p className="font-semibold text-[var(--foreground)]">EcoInstall Amsterdam</p>
-                  <div className="mt-1 flex items-center gap-3 text-xs text-[var(--foreground-soft)]">
-                    <span className="text-[var(--gold-300)]">⭐ 4.8</span>
-                    <span>•</span>
-                    <span>€4,800 – €6,500</span>
-                  </div>
-                </div>
-                <span className="text-xs font-medium text-[var(--primary-600)] bg-[rgba(47,138,103,0.08)] px-3 py-1.5 rounded-full">Available this week</span>
-              </div>
-            </div>
-
-            <div className="border-t border-[rgba(20,35,25,0.08)] px-6 py-3 bg-[rgba(47,138,103,0.02)]">
-              <p className="text-xs text-center text-[var(--foreground-soft)]">
-                Based on your project type and location • All professionals verified
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* HERO V4: Interactive matching entry point */}
+      <HeroV4 />
 
       {/* SECTION 2 — INSTANT PROOF */}
       <section className="px-6 pb-16">
@@ -199,21 +109,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION 5 — MATCHING EXPERIENCE */}
-      <section className="premium-divider section-padding px-6">
-        <div className="mx-auto max-w-7xl">
-          <div className="max-w-3xl mb-8">
-            <p className="section-kicker">Start your comparison</p>
-            <h2 className="section-title mt-4">Tell us what you need — we'll prepare your match</h2>
-            <p className="section-copy mt-5">
-              Choose your project, country and city. We use this to guide you toward relevant professionals in your region.
-            </p>
-          </div>
-          <MatchingBlock />
-        </div>
-      </section>
-
-      {/* SECTION 6 — WHAT YOU GET */}
+      {/* SECTION 5 — WHAT YOU GET */}
       <section className="premium-divider section-padding px-6">
         <div className="mx-auto max-w-7xl">
           <div className="max-w-3xl">
@@ -235,7 +131,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION 7 — EXPERTISE / QUALITY ENGINE */}
+      {/* SECTION 6 — EXPERTISE / QUALITY ENGINE */}
       <section className="premium-divider section-padding px-6">
         <div className="mx-auto max-w-7xl">
           <div className="max-w-3xl">
@@ -257,7 +153,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION 8 — SOCIAL PROOF WITH IMPACT */}
+      {/* SECTION 7 — SOCIAL PROOF WITH IMPACT */}
       <section className="premium-divider section-padding px-6">
         <div className="mx-auto max-w-7xl">
           <div className="max-w-3xl">
@@ -293,7 +189,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION 9 — SERVICES AS PROBLEMS TO SOLVE */}
+      {/* SECTION 8 — SERVICES AS PROBLEMS TO SOLVE */}
       <section className="premium-divider section-padding px-6">
         <div className="mx-auto max-w-7xl">
           <div className="max-w-3xl">
@@ -327,7 +223,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION 10 — GLOBAL SCALE / LOCAL RELEVANCE */}
+      {/* SECTION 9 — GLOBAL SCALE / LOCAL RELEVANCE */}
       <section className="premium-divider section-padding px-6">
         <div className="mx-auto max-w-7xl">
           <div className="max-w-3xl">
@@ -353,7 +249,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION 11 — FINAL CTA / CLOSER */}
+      {/* SECTION 10 — FINAL CTA / CLOSER */}
       <section className="premium-divider px-6 py-20">
         <div className="mx-auto max-w-5xl">
           <div className="glass-panel soft-glow relative overflow-hidden rounded-[2rem] border border-[rgba(199,141,47,0.2)] bg-gradient-to-br from-[rgba(199,141,47,0.08)] via-[rgba(47,138,103,0.06)] to-[rgba(31,93,69,0.08)] px-8 py-12 text-center md:px-16 md:py-16 shadow-[0_24px_56px_rgba(31,93,69,0.18)]">

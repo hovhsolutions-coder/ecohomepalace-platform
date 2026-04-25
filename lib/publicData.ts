@@ -1039,3 +1039,28 @@ export const globalMarkets = [
   { name: "India", flag: "🇮🇳" },
 ];
 
+// Hero V4 project options mapping to service slugs
+export const heroProjectOptions = [
+  { label: "Solar panels", slug: "solar-panels", specialist: "Solar specialist" },
+  { label: "Heat pump", slug: "heat-pumps", specialist: "Heat pump specialist" },
+  { label: "Insulation", slug: "insulation", specialist: "Insulation expert" },
+  { label: "Windows & renovation", slug: "renovation", specialist: "Renovation professional" },
+];
+
+// Country flags for geo UX
+export const countryFlags: Record<string, string> = {
+  "netherlands": "🇳🇱",
+  "germany": "🇩🇪",
+  "united-kingdom": "🇬🇧",
+  "france": "🇫🇷",
+  "spain": "🇪🇸",
+  "italy": "🇮🇹",
+  "belgium": "🇧🇪",
+  "united-states": "🇺🇸",
+  "united-arab-emirates": "🇦🇪",
+  "india": "🇮🇳",
+};
+
+// Default country for geo UX
+export const defaultCountry = "netherlands";
+

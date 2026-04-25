@@ -2,9 +2,9 @@ import { globalMarkets } from '@/lib/publicData';
 
 export default function GlobalLocal() {
   return (
-    <section className="px-6 py-20 bg-gray-50">
+    <section className="px-6 py-16 bg-white">
       <div className="mx-auto max-w-7xl">
-        <div className="text-center mb-12">
+        <div className="text-center mb-10">
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#21c45d] mb-3">
             Global platform
           </p>
@@ -17,7 +17,7 @@ export default function GlobalLocal() {
           {globalMarkets.map((market) => (
             <div
               key={market.name}
-              className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 border border-gray-200 hover:border-[#21c45d] hover:shadow-md transition-all duration-300"
+              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-gray-50 to-white px-5 py-3 border border-gray-200 hover:border-[#21c45d] hover:shadow-md transition-all duration-300"
             >
               <span className="text-2xl">{market.flag}</span>
               <span className="text-sm font-medium text-[#0b2a22]">{market.name}</span>

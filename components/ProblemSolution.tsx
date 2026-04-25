@@ -16,10 +16,10 @@ export default function ProblemSolution() {
   return (
     <section className="px-6 py-20 bg-white">
       <div className="mx-auto max-w-7xl">
-        <div className="grid gap-12 lg:grid-cols-2">
+        <div className="grid gap-8 lg:grid-cols-2">
           {/* Problem side */}
-          <div>
-            <h2 className="text-3xl md:text-4xl font-semibold text-[#0b2a22] mb-6">
+          <div className="bg-[#fff1f2] rounded-2xl p-8 border border-rose-100">
+            <h2 className="text-2xl md:text-3xl font-semibold text-[#0b2a22] mb-6">
               Finding the right installer shouldn't be this hard
             </h2>
             <div className="space-y-4">
@@ -33,8 +33,8 @@ export default function ProblemSolution() {
           </div>
 
           {/* Solution side */}
-          <div className="bg-[rgba(33,196,93,0.05)] rounded-2xl p-8 border border-[rgba(33,196,93,0.2)]">
-            <h3 className="text-2xl font-semibold text-[#0b2a22] mb-6">
+          <div className="bg-[#ecfdf5] rounded-2xl p-8 border border-emerald-100">
+            <h3 className="text-2xl md:text-3xl font-semibold text-[#0b2a22] mb-6">
               Eco Home Palace fixes this
             </h3>
             <div className="space-y-4">

@@ -18,7 +18,7 @@ export default function HowItWorks() {
   ];
 
   return (
-    <section className="px-6 py-20 bg-gray-50">
+    <section className="px-6 py-20 bg-[#f0fdf4]">
       <div className="mx-auto max-w-7xl">
         <div className="text-center mb-12">
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#21c45d] mb-3">
@@ -32,8 +32,8 @@ export default function HowItWorks() {
         <div className="grid gap-8 md:grid-cols-3">
           {steps.map((step, index) => (
             <div key={index} className="relative">
-              <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                <div className="w-16 h-16 rounded-full bg-[rgba(33,196,93,0.1)] flex items-center justify-center mb-6">
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-green-100 hover:shadow-xl transition-all duration-300 h-full">
+                <div className="w-16 h-16 rounded-full bg-[rgba(33,196,93,0.15)] flex items-center justify-center mb-6">
                   <span className="text-3xl">{step.icon}</span>
                 </div>
                 <h3 className="text-xl font-semibold text-[#0b2a22] mb-3">

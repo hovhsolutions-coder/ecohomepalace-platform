@@ -3,12 +3,14 @@
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { countryMarkets, heroProjectOptions, countryFlags, defaultCountry } from '@/lib/publicData';
+import { IconSolar, IconBattery, IconInsulation, IconRenovation, IconCheck, IconStar, IconLightning } from './icons/MarketplaceIcons';
+import { trackEvent } from '@/lib/tracking';
 
-const projectIcons: Record<string, string> = {
-  'solar-panels': '☀️',
-  'heat-pumps': '🔋',
-  'insulation': '🛡️',
-  'renovation': '🔧',
+const projectIcons: Record<string, React.ReactNode> = {
+  'solar-panels': <IconSolar size={32} className="text-white" />,
+  'heat-pumps': <IconBattery size={32} className="text-white" />,
+  'insulation': <IconInsulation size={32} className="text-white" />,
+  'renovation': <IconRenovation size={32} className="text-white" />,
 };
 
 export default function HeroV4() {
@@ -23,7 +25,7 @@ export default function HeroV4() {
     return countryMarkets.find((market) => market.slug === country)?.cities ?? [];
   }, [country]);
 
-  const countryFlag = countryFlags[country] || '🌍';
+  const countryFlag = countryFlags[country] || '';
   const countryName = countryMarkets.find((m) => m.slug === country)?.name || country;
 
   const isComplete = Boolean(selectedProjectOption && city);
@@ -34,46 +36,106 @@ export default function HeroV4() {
 
   // CTA text based on state
   let ctaText = 'Compare 3 installers';
-  if (selectedProjectOption && city) {
+  if (selectedProjectOption && !city) {
+    ctaText = 'Choose your city to continue';
+  } else if (selectedProjectOption && city) {
     ctaText = `Compare 3 installers in ${city}`;
   }
 
+  // Result preview panel title
+  let resultTitle = 'Your matches';
+  if (selectedProjectOption && city) {
+    resultTitle = `Your matches in ${city}`;
+  }
+
+  // Specialist label for preview rows
+  const specialistLabel = selectedProjectOption?.specialist || 'Verified installer';
+
   return (
-    <section className="relative overflow-hidden px-6 pb-16 pt-10 md:pt-16 bg-[#0b2a22]">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(33,196,93,0.08),transparent_50%)]"></div>
+    <section className="relative overflow-hidden px-6 pb-12 pt-8 md:pt-16 bg-[#0b2a22]">
+      {/* Subtle grid pattern */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px]"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(33,196,93,0.12),transparent_50%)]"></div>
       
       <div className="mx-auto max-w-7xl relative">
         <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           {/* Left: Content and interaction */}
-          <div className="space-y-8">
+          <div className="space-y-6 md:space-y-8">
             {/* Hero content */}
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#21c45d]">
-                GLOBAL PLATFORM FOR SMART HOME UPGRADES
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#21c45d] md:text-sm">
+                FREE HOME IMPROVEMENT COMPARISON
               </p>
-              <h1 className="mt-4 max-w-[600px] text-[clamp(2.8rem,6vw,4rem)] font-semibold leading-[1.02] text-white">
-                Compare 3 verified installers in your area — in minutes
+              <h1 className="mt-3 max-w-[600px] text-[clamp(2rem,5vw,4rem)] font-semibold leading-[1.02] text-white md:mt-4">
+                Compare 3 verified installers in your area
               </h1>
-              <p className="mt-5 max-w-2xl text-lg leading-8 text-gray-300">
-                No searching, no uncertainty. Just clear options you can trust.
+              <p className="mt-4 max-w-2xl text-base leading-7 text-gray-300 md:text-lg md:leading-8 md:mt-5">
+                Access matched installers quickly. No obligation.
               </p>
             </div>
 
-            {/* Action question */}
+            {/* Geo UX */}
             <div>
-              <p className="text-base font-medium text-white mb-4">
-                What do you want to improve in your home?
-              </p>
+              {showCountrySelector ? (
+                <div className="inline-flex items-center gap-3">
+                  <span className="text-sm text-gray-400">Showing results for:</span>
+                  <select
+                    value={country}
+                    onChange={(e) => {
+                      setCountry(e.target.value);
+                      setCity('');
+                    }}
+                    onBlur={() => setShowCountrySelector(false)}
+                    className="bg-white/10 border border-white/20 rounded-full px-4 py-2 text-sm font-medium text-white outline-none hover:border-[#21c45d] transition-colors"
+                  >
+                    {countryMarkets.map((market) => (
+                      <option key={market.slug} value={market.slug}>
+                        {market.name}
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    onClick={() => setShowCountrySelector(false)}
+                    className="text-sm font-medium text-[#21c45d] hover:underline"
+                  >
+                    Done
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setShowCountrySelector(true)}
+                  className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-white transition"
+                >
+                  Showing results for {countryName} {countryFlag}
+                  <span className="font-medium text-[#21c45d]">Change</span>
+                </button>
+              )}
+            </div>
+
+            {/* Action question - Step 1 */}
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#21c45d] text-xs font-bold text-white">1</span>
+                <p className="text-base font-medium text-white">
+                  What do you want to improve?
+                </p>
+              </div>
               
               {/* Project selector */}
               <div className="grid gap-3 sm:grid-cols-2">
                 {heroProjectOptions.map((project) => (
                   <button
                     key={project.slug}
-                    onClick={() => setSelectedProject(project.slug)}
+                    onClick={() => {
+                      setSelectedProject(project.slug);
+                      trackEvent('hero_project_selected', { 
+                        page: 'hero',
+                        service: project.slug 
+                      });
+                    }}
                     className={`relative overflow-hidden rounded-[1.2rem] border px-6 py-5 text-left transition-all duration-300 hover:scale-[1.02] ${
                       selectedProject === project.slug
-                        ? 'border-[#21c45d] bg-[rgba(33,196,93,0.12)] shadow-[0_0_0_4px_rgba(33,196,93,0.2),0_12px_32px_rgba(33,196,93,0.25)]'
+                        ? 'border-[#21c45d] bg-[rgba(33,196,93,0.15)] shadow-[0_0_0_4px_rgba(33,196,93,0.2),0_12px_32px_rgba(33,196,93,0.3)]'
                         : 'border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.05)] hover:border-[rgba(33,196,93,0.4)] hover:bg-[rgba(255,255,255,0.1)]'
                     }`}
                   >
@@ -83,7 +145,7 @@ export default function HeroV4() {
                     </div>
                     {selectedProject === project.slug && (
                       <div className="absolute top-5 right-5 h-6 w-6 rounded-full bg-[#21c45d] flex items-center justify-center shadow-lg">
-                        <span className="text-white text-xs">✓</span>
+                        <IconCheck size={14} className="text-white" />
                       </div>
                     )}
                   </button>
@@ -91,35 +153,89 @@ export default function HeroV4() {
               </div>
             </div>
 
-            {/* Location selector */}
+            {/* City input - Step 2 (shown after project selection) */}
             {selectedProjectOption && (
               <div className="animate-in fade-in slide-in-from-top-4 duration-300">
-                <div className="flex items-center gap-4">
-                  <div className="flex-1">
-                    <select
-                      value={city}
-                      onChange={(e) => setCity(e.target.value)}
-                      className="w-full rounded-[1.2rem] border border-[rgba(255,255,255,0.2)] bg-[rgba(255,255,255,0.1)] px-5 py-4 text-base text-white outline-none transition-all duration-300 hover:border-[#21c45d]"
-                    >
-                      <option value="">Enter your city (e.g. Amsterdam)</option>
-                      {filteredCities.map((item) => (
-                        <option key={item.slug} value={item.slug}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#21c45d] text-xs font-bold text-white">2</span>
+                  <label className="text-sm font-medium text-white">
+                    Where is your home?
+                  </label>
                 </div>
+                <div className="relative">
+                  <select
+                    value={city}
+                    onChange={(e) => {
+                      setCity(e.target.value);
+                      trackEvent('hero_city_selected', { 
+                        page: 'hero',
+                        city: e.target.value, 
+                        service: selectedProject,
+                        country 
+                      });
+                      
+                      // Track funnel start when both project and city are selected
+                      if (selectedProject && e.target.value) {
+                        trackEvent('funnel_started', { 
+                          page: 'hero',
+                          service: selectedProject,
+                          city: e.target.value,
+                          country 
+                        });
+                      }
+                    }}
+                    className={`w-full rounded-[1.2rem] border px-5 py-4 text-base text-white outline-none transition-all duration-300 ${
+                      city ? 'border-[#21c45d] shadow-[0_0_0_4px_rgba(33,196,93,0.15)]' : 'border-[rgba(255,255,255,0.2)]'
+                    } bg-[rgba(255,255,255,0.1)]`}
+                  >
+                    <option value="">Enter your city (e.g. Amsterdam)</option>
+                    {filteredCities.map((item) => (
+                      <option key={item.slug} value={item.slug}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {/* Micro social proof when project selected */}
+                {city && (
+                  <div className="mt-3 flex items-center gap-2 text-xs text-[#21c45d]">
+                    <IconCheck size={12} />
+                    <span>Most chosen in {city} this week</span>
+                  </div>
+                )}
               </div>
             )}
 
-            {/* CTA */}
-            <div>
+            {/* CTA - Final action */}
+            <div className="pt-4">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#21c45d] text-xs font-bold text-white">3</span>
+                <p className="text-sm font-medium text-white">
+                  Get your matches
+                </p>
+              </div>
               <Link
                 href={intakeHref}
                 onClick={(e) => {
                   if (!isComplete) {
                     e.preventDefault();
+                  } else {
+                    trackEvent('hero_cta_clicked', { 
+                      page: 'hero',
+                      service: selectedProject, 
+                      city, 
+                      country 
+                    });
+                    
+                    // Track funnel start if not already tracked
+                    if (selectedProject && city) {
+                      trackEvent('funnel_started', { 
+                        page: 'hero',
+                        service: selectedProject,
+                        city,
+                        country 
+                      });
+                    }
                   }
                 }}
                 className={`inline-flex min-h-16 w-full items-center justify-center rounded-full px-8 py-4 text-lg font-semibold transition-all duration-300 hover:scale-[1.02] ${
@@ -130,65 +246,109 @@ export default function HeroV4() {
               >
                 {ctaText}
               </Link>
+              <p className="mt-3 text-sm text-gray-400">
+                Takes 30 seconds • No commitment
+              </p>
             </div>
 
-            {/* Trust */}
-            <div className="flex flex-wrap gap-6 text-sm text-gray-300">
-              <span className="inline-flex items-center gap-2">
-                <span className="text-[#fbbf24]">⭐</span>
-                <span>4.8/5 from 10,000+ homeowners</span>
+            {/* Trust indicators - simplified */}
+            <div className="flex flex-wrap items-center gap-4 text-xs text-gray-400">
+              <span className="inline-flex items-center gap-1.5">
+                <IconStar size={14} className="text-[#fbbf24]" filled />
+                <span>4.8/5 rating</span>
               </span>
-              <span className="inline-flex items-center gap-2">
-                <span className="text-[#21c45d]">✔</span>
-                <span>Verified professionals only</span>
+              <span className="inline-flex items-center gap-1.5">
+                <IconCheck size={14} className="text-[#21c45d]" />
+                <span>Verified installers</span>
               </span>
-              <span className="inline-flex items-center gap-2">
-                <span className="text-[#21c45d]">⚡</span>
-                <span>Response within 24 hours</span>
+              <span className="inline-flex items-center gap-1.5">
+                <span className="text-[#21c45d]">•</span>
+                <span>Free comparison</span>
               </span>
+              <span className="inline-flex items-center gap-1.5">
+                <span className="text-[#21c45d]">•</span>
+                <span>No obligation</span>
+              </span>
+            </div>
+
+            {/* Live marketplace bar - desktop only, moved below trust to not compete with CTA */}
+            <div className="rounded-2xl bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] px-5 py-4 hidden md:block">
+              <div className="grid gap-3 sm:grid-cols-3 text-center sm:text-left">
+                <div className="flex items-center gap-3 sm:block">
+                  <div className="h-2 w-2 rounded-full bg-[#21c45d] sm:hidden"></div>
+                  <div>
+                    <p className="text-base font-semibold text-white">12</p>
+                    <p className="text-xs text-gray-400">Installers available</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 sm:block">
+                  <div className="h-2 w-2 rounded-full bg-[#21c45d] sm:hidden"></div>
+                  <div>
+                    <p className="text-base font-semibold text-white">38</p>
+                    <p className="text-xs text-gray-400">Quotes today</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 sm:block">
+                  <div className="h-2 w-2 rounded-full bg-[#21c45d] sm:hidden"></div>
+                  <div>
+                    <p className="text-base font-semibold text-white">2h</p>
+                    <p className="text-xs text-gray-400">Avg. response</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Right: Visual placeholder for installer image */}
-          <div className="relative">
-            <div className="relative rounded-[2rem] overflow-hidden border-2 border-[rgba(255,255,255,0.1)] bg-[#101827] shadow-[0_24px_64px_rgba(0,0,0,0.5)]">
-              <div className="absolute inset-0 bg-gradient-to-br from-[rgba(33,196,93,0.1)] to-[rgba(21,196,93,0.05)]"></div>
-              
-              {/* Image placeholder frame */}
-              <div className="relative h-[400px] md:h-[500px] flex items-center justify-center">
-                <div className="text-center space-y-4">
-                  <div className="w-20 h-20 mx-auto rounded-full bg-[rgba(255,255,255,0.1)] flex items-center justify-center">
-                    <span className="text-4xl">🏠</span>
-                  </div>
-                  <div>
-                    <p className="text-white font-semibold text-lg">Verified Installer</p>
-                    <p className="text-gray-400 text-sm mt-1">Amsterdam, Netherlands</p>
-                  </div>
-                  <div className="flex items-center justify-center gap-4 mt-4">
-                    <span className="text-[#fbbf24]">⭐ 4.9</span>
-                    <span className="text-gray-400">•</span>
-                    <span className="text-gray-300">Solar Specialist</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Bottom overlay */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#101827] via-[#101827]/80 to-transparent px-6 py-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-white font-semibold">Your local matches</p>
-                    <p className="text-gray-400 text-sm">Matched within 24 hours</p>
-                  </div>
-                  <div className="h-10 w-10 rounded-full bg-[#21c45d] flex items-center justify-center">
-                    <span className="text-white text-sm">✓</span>
-                  </div>
-                </div>
-              </div>
+          {/* Right: Premium marketplace result preview - desktop only */}
+          <div className="result-panel relative overflow-hidden rounded-2xl bg-[#0f172a] shadow-2xl border border-[rgba(255,255,255,0.1)] hidden lg:block">
+            <div className="border-b border-[rgba(255,255,255,0.1)] px-6 py-5 bg-[#1e293b]">
+              <p className="text-sm font-semibold text-white">{resultTitle}</p>
+              <p className="mt-1 text-xs text-gray-400">Matched within 24 hours</p>
             </div>
 
-            {/* Decorative elements */}
-            <div className="absolute -top-8 -right-8 w-32 h-32 bg-[rgba(33,196,93,0.15)] rounded-full blur-3xl"></div>
-            <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-[rgba(251,191,36,0.1)] rounded-full blur-3xl"></div>
+            <div className="divide-y divide-[rgba(255,255,255,0.08)]">
+              {[1, 2, 3].map((num) => (
+                <div key={num} className="px-6 py-4 flex items-center justify-between gap-4 transition hover:bg-[#1e293b]">
+                  <div className="flex items-center gap-4 flex-1">
+                    {/* Avatar placeholder */}
+                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#334155] text-white text-sm font-semibold">
+                      {specialistLabel.charAt(0)}
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <p className="font-semibold text-white text-sm">
+                          {specialistLabel} {city ? `in ${city}` : ''}
+                        </p>
+                        {num === 1 && (
+                          <span className="text-[10px] font-medium text-[#21c45d] bg-[rgba(33,196,93,0.15)] px-2 py-0.5 rounded-full border border-[rgba(33,196,93,0.3)]">
+                            Top match
+                          </span>
+                        )}
+                      </div>
+                      <div className="mt-1 flex items-center gap-3 text-xs text-gray-400">
+                        <IconStar size={11} className="text-[#fbbf24]" filled />
+                        <span>4.{8 - num + 1}</span>
+                        <span>•</span>
+                        <span>€{(4 + num) * 1000} – €{(6 + num) * 1000}</span>
+                        <span>•</span>
+                        <span>~{num}h response</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-end gap-1">
+                    <span className="text-xs font-medium text-emerald-400 bg-emerald-400/10 px-3 py-1 rounded-full border border-emerald-400/20">
+                      {num === 1 ? 'Available now' : 'This week'}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="border-t border-[rgba(255,255,255,0.1)] px-6 py-4 bg-[#1e293b]">
+              <p className="text-xs text-center text-gray-400">
+                Based on your project and location • All professionals verified
+              </p>
+            </div>
           </div>
         </div>
       </div>

@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import HeroV4 from "@/components/HeroV4";
 import ProofStrip from "@/components/ProofStrip";
 import HowItWorks from "@/components/HowItWorks";
+import MatchingEngine from "@/components/MatchingEngine";
 import ProblemSolution from "@/components/ProblemSolution";
 import ServicesTiles from "@/components/ServicesTiles";
+import MidPageCTA from "@/components/MidPageCTA";
 import TrustProof from "@/components/TrustProof";
 import GlobalLocal from "@/components/GlobalLocal";
 import FinalCTA from "@/components/FinalCTA";
@@ -30,19 +32,25 @@ export default function Home() {
       {/* 3. How it works visual module */}
       <HowItWorks />
 
-      {/* 4. Problem/Solution split */}
+      {/* 4. Matching engine premium section */}
+      <MatchingEngine />
+
+      {/* 5. Problem/Solution split */}
       <ProblemSolution />
 
-      {/* 5. Services category tiles */}
+      {/* 6. Services category tiles */}
       <ServicesTiles />
 
-      {/* 6. Trust/social proof */}
+      {/* 7. Mid-page CTA */}
+      <MidPageCTA />
+
+      {/* 8. Trust/social proof */}
       <TrustProof />
 
-      {/* 7. Global/local compact module */}
+      {/* 9. Global/local compact module */}
       <GlobalLocal />
 
-      {/* 8. Bold final CTA */}
+      {/* 10. Bold final CTA */}
       <FinalCTA />
 
       <PublicFooter />

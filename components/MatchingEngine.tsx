@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { IconProject, IconTarget, IconCheck } from './icons/MarketplaceIcons';
-import PremiumVisualPanel from './PremiumVisualPanel';
+import InstallerCards from './InstallerCards';
 
 export default function MatchingEngine() {
   const factors = [
@@ -65,9 +65,9 @@ export default function MatchingEngine() {
             </div>
           </div>
 
-          {/* Right: Visual matching logic flow */}
-          <div className="relative">
-            <PremiumVisualPanel variant="matching-flow" className="hidden lg:block" />
+          {/* Right: Installer cards - Airbnb-style marketplace */}
+          <div className="relative hidden lg:block h-[400px]">
+            <InstallerCards />
           </div>
         </div>
       </div>

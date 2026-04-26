@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { countryMarkets, heroProjectOptions, countryFlags, defaultCountry } from '@/lib/publicData';
 import { IconSolar, IconBattery, IconInsulation, IconRenovation, IconCheck, IconStar, IconLightning } from './icons/MarketplaceIcons';
 import { trackEvent } from '@/lib/tracking';
+import ImagePanel from './ImagePanel';
 
 const projectIcons: Record<string, React.ReactNode> = {
   'solar-panels': <IconSolar size={32} className="text-white" />,
@@ -299,56 +300,16 @@ export default function HeroV4() {
             </div>
           </div>
 
-          {/* Right: Premium marketplace result preview - desktop only */}
-          <div className="result-panel relative overflow-hidden rounded-2xl bg-[#0f172a] shadow-2xl border border-[rgba(255,255,255,0.1)] hidden lg:block">
-            <div className="border-b border-[rgba(255,255,255,0.1)] px-6 py-5 bg-[#1e293b]">
-              <p className="text-sm font-semibold text-white">{resultTitle}</p>
-              <p className="mt-1 text-xs text-gray-400">Matched within 24 hours</p>
-            </div>
-
-            <div className="divide-y divide-[rgba(255,255,255,0.08)]">
-              {[1, 2, 3].map((num) => (
-                <div key={num} className="px-6 py-4 flex items-center justify-between gap-4 transition hover:bg-[#1e293b]">
-                  <div className="flex items-center gap-4 flex-1">
-                    {/* Avatar placeholder */}
-                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#334155] text-white text-sm font-semibold">
-                      {specialistLabel.charAt(0)}
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2">
-                        <p className="font-semibold text-white text-sm">
-                          {specialistLabel} {city ? `in ${city}` : ''}
-                        </p>
-                        {num === 1 && (
-                          <span className="text-[10px] font-medium text-[#21c45d] bg-[rgba(33,196,93,0.15)] px-2 py-0.5 rounded-full border border-[rgba(33,196,93,0.3)]">
-                            Top match
-                          </span>
-                        )}
-                      </div>
-                      <div className="mt-1 flex items-center gap-3 text-xs text-gray-400">
-                        <IconStar size={11} className="text-[#fbbf24]" filled />
-                        <span>4.{8 - num + 1}</span>
-                        <span>•</span>
-                        <span>€{(4 + num) * 1000} – €{(6 + num) * 1000}</span>
-                        <span>•</span>
-                        <span>~{num}h response</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col items-end gap-1">
-                    <span className="text-xs font-medium text-emerald-400 bg-emerald-400/10 px-3 py-1 rounded-full border border-emerald-400/20">
-                      {num === 1 ? 'Available now' : 'This week'}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="border-t border-[rgba(255,255,255,0.1)] px-6 py-4 bg-[#1e293b]">
-              <p className="text-xs text-center text-gray-400">
-                Based on your project and location • All professionals verified
-              </p>
-            </div>
+          {/* Right: Real image visual - desktop only */}
+          <div className="hidden lg:block">
+            <ImagePanel 
+              imageUrl="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1400"
+              alt="Modern residential house with solar panels on roof"
+              overlay="dark-green"
+              badge="Verified installers"
+              badgePosition="top-right"
+              className="h-[450px] shadow-2xl"
+            />
           </div>
         </div>
       </div>

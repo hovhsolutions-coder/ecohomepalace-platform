@@ -74,10 +74,10 @@ export default function PublicHeader() {
             {/* Support button - dark translucent pill with gold border */}
             <a
               href="mailto:support@ecohomepalace.com"
-              className="hidden xl:flex h-11 items-center gap-2 rounded-full border border-[#d8b45f]/30 bg-white/6 px-4 text-sm font-medium text-[#f8f1dc] transition-all duration-300 hover:border-[#d8b45f]/50 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-[#f0c96a]/70 focus-visible:outline-none"
+              className="hidden xl:flex h-11 items-center gap-2 rounded-full border border-[#d8b45f]/30 bg-white/6 px-4 text-sm font-medium text-[#efe6c8] transition-all duration-300 hover:border-[#d8b45f]/50 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-[#f0c96a]/70 focus-visible:outline-none"
             >
               <svg
-                className="h-4 w-4 text-[#f8f1dc]"
+                className="h-4 w-4 text-[#efe6c8]"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -303,11 +303,11 @@ export default function PublicHeader() {
               <div className="mt-4 px-4">
                 <a
                   href="mailto:support@ecohomepalace.com"
-                  className="flex h-11 items-center gap-2 rounded-lg border border-[#d8b45f]/30 bg-white/6 px-4 text-sm font-medium text-[#f8f1dc] transition-colors hover:border-[#d8b45f]/50 hover:bg-white/10 hover:text-white"
+                  className="flex h-11 items-center gap-2 rounded-lg border border-[#d8b45f]/30 bg-white/6 px-4 text-sm font-medium text-[#efe6c8] transition-colors hover:border-[#d8b45f]/50 hover:bg-white/10 hover:text-white"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   <svg
-                    className="h-4 w-4 text-[#f8f1dc]"
+                    className="h-4 w-4 text-[#efe6c8]"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"

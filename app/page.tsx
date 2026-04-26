@@ -11,6 +11,7 @@ import GlobalLocal from "@/components/GlobalLocal";
 import FinalCTA from "@/components/FinalCTA";
 import PublicFooter from "@/components/PublicFooter";
 import PublicHeader from "@/components/PublicHeader";
+import HomeScan from "@/components/HomeScan";
 
 export const metadata: Metadata = {
   title: "Eco Home Palace | Find Trusted Home Professionals",
@@ -26,7 +27,10 @@ export default function Home() {
       {/* 1. Dark hero with instant action */}
       <HeroV4 />
 
-      {/* 2. Proof strip */}
+      {/* 2. Home scan interactive section */}
+      <HomeScan />
+
+      {/* 3. Proof strip */}
       <ProofStrip />
 
       {/* 3. How it works visual module */}

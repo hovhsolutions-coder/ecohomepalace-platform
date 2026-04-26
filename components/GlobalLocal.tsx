@@ -1,5 +1,5 @@
 import { globalMarkets } from '@/lib/publicData';
-import PremiumVisualPanel from './PremiumVisualPanel';
+import ImagePanel from './ImagePanel';
 
 export default function GlobalLocal() {
   return (
@@ -30,9 +30,16 @@ export default function GlobalLocal() {
             </div>
           </div>
 
-          {/* Right: Visual city grid */}
+          {/* Right: City image with overlay badges */}
           <div className="relative">
-            <PremiumVisualPanel variant="city-grid" className="hidden lg:block" />
+            <ImagePanel 
+              imageUrl="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=1400"
+              alt="Paris cityscape with Eiffel Tower"
+              overlay="dark"
+              badge="32 installers active • Typical response 24–48h"
+              badgePosition="bottom-right"
+              className="hidden lg:block h-[400px] shadow-2xl"
+            />
           </div>
         </div>
       </div>

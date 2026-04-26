@@ -1,0 +1,111 @@
+// Mock Marketplace Data
+// This file contains only mock data for development and testing.
+// In production, this will be replaced by database queries.
+
+import { Installer, LeadRequest } from "./matching";
+
+// Mock Installers
+export const MOCK_INSTALLERS: Installer[] = [
+  {
+    id: "1",
+    companyName: "Green Energy Solutions",
+    contactPerson: "Jan de Vries",
+    email: "jan@greenenergy.nl",
+    phone: "+31 6 12345678",
+    services: ["solar", "heat-pumps", "insulation"],
+    mainPostcode: "1000 AA",
+    serviceRadius: 50,
+    region: "Amsterdam",
+    monthlyCapacity: 8,
+    isCertified: true,
+    hasInsurance: true,
+    yearsOfExperience: 12,
+    website: "https://greenenergy.nl",
+    membershipTier: "growth",
+    qualityScore: 85,
+    active: true,
+    createdAt: new Date("2024-01-15"),
+  },
+  {
+    id: "2",
+    companyName: "Comfort Home Systems",
+    contactPerson: "Lisa Peters",
+    email: "lisa@comforthome.nl",
+    phone: "+31 6 23456789",
+    services: ["heat-pumps", "insulation", "electrical"],
+    mainPostcode: "2000 AA",
+    serviceRadius: 75,
+    region: "Rotterdam",
+    monthlyCapacity: 12,
+    isCertified: true,
+    hasInsurance: true,
+    yearsOfExperience: 8,
+    website: "https://comforthome.nl",
+    membershipTier: "premium",
+    qualityScore: 92,
+    active: true,
+    createdAt: new Date("2024-02-01"),
+  },
+  {
+    id: "3",
+    companyName: "Solar Pro Installers",
+    contactPerson: "Mark Johnson",
+    email: "mark@solarpro.nl",
+    phone: "+31 6 34567890",
+    services: ["solar", "electrical"],
+    mainPostcode: "3000 AB",
+    serviceRadius: 25,
+    region: "The Hague",
+    monthlyCapacity: 5,
+    isCertified: true,
+    hasInsurance: true,
+    yearsOfExperience: 6,
+    website: "https://solarpro.nl",
+    membershipTier: "starter",
+    qualityScore: 78,
+    active: true,
+    createdAt: new Date("2024-03-10"),
+  },
+];
+
+// Mock Leads
+export const MOCK_LEADS: LeadRequest[] = [
+  {
+    id: "1",
+    service: "solar",
+    serviceName: "Solar panels",
+    impact: "Can significantly reduce monthly energy costs",
+    whyItMatters: "Homes like yours often have strong solar potential that can significantly reduce monthly energy costs.",
+    propertyType: "house",
+    ownership: "own",
+    timeline: "soon",
+    postcode: "1020 AB",
+    region: "Amsterdam",
+    homeownerName: "Peter Jansen",
+    homeownerEmail: "peter.jansen@email.com",
+    homeownerPhone: "+31 6 23456789",
+    status: "new",
+    createdAt: new Date("2024-04-25"),
+    leadValue: 120,
+  },
+  {
+    id: "2",
+    service: "heat-pumps",
+    serviceName: "Heat pump",
+    impact: "Lowers energy use and provides consistent warmth",
+    whyItMatters: "A heat pump uses significantly less energy than traditional heating systems.",
+    propertyType: "house",
+    ownership: "own",
+    timeline: "exploring",
+    postcode: "1050 CD",
+    region: "Amsterdam",
+    homeownerName: "Maria van den Berg",
+    homeownerEmail: "maria.vandenberg@email.com",
+    status: "new",
+    createdAt: new Date("2024-04-24"),
+    leadValue: 150,
+  },
+];
+
+// Mock Current Installer ID (for dashboard)
+export const MOCK_CURRENT_INSTALLER_ID = "1";

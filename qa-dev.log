@@ -1,0 +1,40 @@
+
+> ecohomepalace-platform@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.0 (Turbopack)
+- Local:         http://localhost:3001
+- Network:       http://10.21.220.4:3001
+- Environments: .env
+✓ Ready in 1153ms
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+
+ GET / 200 in 1719ms (next.js: 643ms, application-code: 1076ms)
+ GET / 200 in 242ms (next.js: 7ms, application-code: 235ms)
+ GET /services 200 in 1495ms (next.js: 1243ms, application-code: 252ms)
+ GET /cities 200 in 1035ms (next.js: 813ms, application-code: 222ms)
+ GET /services/solar 200 in 3.0s (next.js: 2.7s, generate-params: 1566ms, application-code: 312ms)
+ GET /cities/berlin 200 in 3.2s (next.js: 2.9s, generate-params: 1752ms, application-code: 233ms)
+ GET /solar/berlin 200 in 2.5s (next.js: 2.2s, generate-params: 1321ms, application-code: 314ms)
+ GET /intake 200 in 326ms (next.js: 127ms, application-code: 199ms)
+ GET /thanks 200 in 1171ms (next.js: 947ms, application-code: 224ms)
+ GET /services/not-real 404 in 205ms (next.js: 21ms, generate-params: 14ms, application-code: 184ms)
+ GET /cities/not-real 404 in 222ms (next.js: 25ms, generate-params: 18ms, application-code: 196ms)
+ GET /solar/not-real 404 in 257ms (next.js: 30ms, generate-params: 22ms, application-code: 227ms)
+ GET /intake?service=solar&city=berlin 200 in 196ms (next.js: 19ms, application-code: 177ms)
+ GET /cities/not-real 404 in 259ms (next.js: 31ms, generate-params: 21ms, application-code: 227ms)
+ GET /solar/not-real 404 in 617ms (next.js: 27ms, generate-params: 18ms, application-code: 590ms)
+ GET /services/not-real 404 in 393ms (next.js: 43ms, generate-params: 29ms, application-code: 350ms)
+✓ Compiled in 12.7s
+ GET / 200 in 555ms (next.js: 238ms, application-code: 317ms)
+ GET /services 200 in 446ms (next.js: 201ms, application-code: 245ms)
+ GET /cities 200 in 405ms (next.js: 184ms, application-code: 221ms)
+ GET /services/solar 200 in 449ms (next.js: 207ms, generate-params: 12ms, application-code: 242ms)
+ GET /cities/berlin 200 in 533ms (next.js: 248ms, generate-params: 10ms, application-code: 285ms)
+ GET /solar/berlin 200 in 570ms (next.js: 256ms, generate-params: 14ms, application-code: 314ms)
+ GET /intake 200 in 581ms (next.js: 289ms, application-code: 292ms)
+ GET /thanks 200 in 612ms (next.js: 293ms, application-code: 318ms)
+ GET /solar/berlin 200 in 135ms (next.js: 19ms, generate-params: 13ms, application-code: 116ms)
+ GET /services/not-real 404 in 198ms (next.js: 22ms, generate-params: 15ms, application-code: 177ms)
+ GET /cities/not-real 404 in 190ms (next.js: 21ms, generate-params: 16ms, application-code: 170ms)
+ GET /solar/not-real 404 in 282ms (next.js: 29ms, generate-params: 22ms, application-code: 253ms)

@@ -156,7 +156,7 @@ export default function HeroScan() {
                     <span className="text-amber-400">selected professionals</span>
                   </h1>
                   <p className="mt-6 text-lg leading-relaxed text-emerald-100 md:text-xl lg:text-2xl">
-                    Start with a guided home analysis. We'll map your goal, location and selected upgrades before showing installer options.
+                    See where your home can save energy, improve comfort, and avoid unnecessary upgrades before making decisions.
                   </p>
                 </div>
                 
@@ -407,6 +407,9 @@ export default function HeroScan() {
                 <p className="text-lg text-emerald-200/80">
                   Preparing your personalized upgrade profile
                 </p>
+                <p className="mt-2 text-sm text-emerald-300/60">
+                  This helps determine the most effective improvements for your home.
+                </p>
               </div>
 
               <div className="relative">
@@ -476,6 +479,9 @@ export default function HeroScan() {
                 <p className="text-lg text-emerald-200/80">
                   Match readiness: Excellent. Ready to connect with selected installers.
                 </p>
+                <p className="mt-2 text-sm text-emerald-300/60">
+                  These insights are based on common improvement patterns for homes like yours.
+                </p>
               </div>
               
               <div className="grid gap-6 md:grid-cols-2 mb-8">
@@ -537,11 +543,11 @@ export default function HeroScan() {
                   href={`/intake?country=${selectedCountry?.code}&services=${selectedServices.join(",")}&goal=${selectedGoal}`}
                   className="inline-flex items-center gap-3 rounded-full bg-amber-400 px-8 py-4 text-base font-medium text-emerald-950 transition-all hover:bg-amber-300 hover:scale-105 shadow-lg shadow-amber-400/20"
                 >
-                  See installer options
+                  See the best installer options for this upgrade
                 </a>
                 
                 <div className="mt-6 text-sm text-emerald-200/60">
-                  Verified professionals · Personalized matching · Free quotes
+                  Takes about 60 seconds · Free · No obligation · Verified network · No hidden costs
                 </div>
               </div>
             </div>

@@ -9,18 +9,16 @@ export default function TrustBadges({
   items: TrustBadgeItem[];
 }) {
   return (
-    <div className="glass-panel mx-auto grid max-w-6xl gap-4 px-6 py-5 sm:grid-cols-3">
+    <div className="glass-panel mx-auto grid max-w-6xl gap-4 px-5 py-5 sm:grid-cols-3 sm:px-6">
       {items.map((item) => (
         <div
           key={`${item.value}-${item.label}`}
-          className="rounded-[1.5rem] border border-white/10 bg-black/20 px-5 py-4 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
+          className="rounded-[1.25rem] border border-[rgba(20,35,25,0.08)] bg-white/80 px-5 py-4 text-center"
         >
-          <p className="text-2xl font-semibold text-[var(--gold-300)]">
+          <p className="text-2xl font-semibold text-[var(--primary-700)]">
             {item.value}
           </p>
-          <p className="mt-1 text-sm uppercase tracking-[0.18em] text-white/55">
-            {item.label}
-          </p>
+          <p className="mt-1 text-sm text-[var(--foreground-soft)]">{item.label}</p>
         </div>
       ))}
     </div>

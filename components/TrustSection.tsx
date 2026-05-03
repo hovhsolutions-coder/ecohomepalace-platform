@@ -11,17 +11,15 @@ export default function TrustSection({
 }: TrustSectionProps) {
   return (
     <section className="mt-12">
-      <p className="text-sm uppercase tracking-[0.2em] text-white/50">{title}</p>
-      {intro ? (
-        <p className="mt-4 max-w-3xl text-lg leading-8 text-white/70">{intro}</p>
-      ) : null}
+      <p className="section-kicker">{title}</p>
+      {intro ? <p className="section-copy mt-4">{intro}</p> : null}
       <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
         {points.map((point) => (
           <div
             key={point}
-            className="rounded-2xl border border-white/10 bg-zinc-950 px-6 py-5"
+            className="rounded-[1.25rem] border border-[rgba(20,35,25,0.08)] bg-white/82 px-6 py-5 text-sm font-medium text-[var(--foreground-soft)] shadow-[0_10px_24px_rgba(20,35,25,0.05)]"
           >
-            <span className="font-medium text-white/80">{point}</span>
+            {point}
           </div>
         ))}
       </div>

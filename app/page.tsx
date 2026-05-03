@@ -70,9 +70,9 @@ export default function Home() {
 
           <a
             href="#contact"
-            className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-black transition hover:opacity-90"
+            className="rounded-full bg-amber-400 px-5 py-3 text-sm font-semibold text-emerald-950 transition hover:bg-amber-300 hover:scale-105 shadow-lg shadow-amber-400/20"
           >
-            Get Quote
+            Start analysis
           </a>
         </div>
       </section>

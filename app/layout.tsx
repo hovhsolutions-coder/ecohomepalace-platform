@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Analytics from "./analytics";
+// import Analytics from "./analytics";
 import { FunnelDebug } from "@/components/FunnelDebug";
 import "./globals.css";
 
@@ -71,7 +71,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Analytics />
+        {/* <Analytics /> */}
         <FunnelDebug />
         {children}
       </body>

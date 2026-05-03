@@ -1,477 +1,604 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import { createLead } from "@/lib/marketplaceService";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
-type IntakeStep = "confirm" | "context" | "home" | "contact" | "confirmation";
+type IntakeStep = "confirm" | "context" | "details" | "contact" | "confirmation";
 
 interface IntakeData {
+  recommendation: string;
   service: string;
-  intakeSlug: string;
-  impact: string;
-  whyItMatters: string;
+  goal: string;
+  country: string;
   propertyType: string;
   ownership: string;
   timeline: string;
   postcode: string;
+  houseType: string;
   name: string;
   email: string;
   phone: string;
 }
 
-interface IntakeFlowProps {
-  initialService: string;
-  initialSlug: string;
-  initialImpact: string;
-  initialWhyItMatters: string;
-}
-
 const PROPERTY_TYPES = [
-  { id: "house", label: "House" },
-  { id: "apartment", label: "Apartment" },
-  { id: "townhouse", label: "Townhouse" },
-  { id: "other", label: "Other" },
+  { id: "house", label: "House", icon: "🏠" },
+  { id: "apartment", label: "Apartment", icon: "🏢" },
+  { id: "townhouse", label: "Townhouse", icon: "🏘️" },
 ];
 
 const OWNERSHIP_TYPES = [
-  { id: "own", label: "I own the property" },
-  { id: "rent", label: "I rent the property" },
+  { id: "own", label: "I own the property", icon: "🔑" },
+  { id: "rent", label: "I rent the property", icon: "📋" },
 ];
 
-const TIMELINE_OPTIONS = [
-  { id: "soon", label: "Starting soon" },
-  { id: "exploring", label: "Just exploring" },
-  { id: "flexible", label: "Flexible timeline" },
+const TIMELINE_TYPES = [
+  { id: "soon", label: "Ready to start soon", icon: "⚡" },
+  { id: "exploring", label: "Exploring options", icon: "🔍" },
+  { id: "flexible", label: "Flexible timeline", icon: "📅" },
 ];
 
-export default function IntakeFlow({
-  initialService,
-  initialSlug,
-  initialImpact,
-  initialWhyItMatters,
-}: IntakeFlowProps) {
-  const [step, setStep] = useState<IntakeStep>("confirm");
-  const [data, setData] = useState<Partial<IntakeData>>({
-    service: initialService,
-    intakeSlug: initialSlug,
-    impact: initialImpact,
-    whyItMatters: initialWhyItMatters,
+const HOUSE_TYPES = [
+  { id: "detached", label: "Detached house" },
+  { id: "semi-detached", label: "Semi-detached" },
+  { id: "terraced", label: "Terraced house" },
+  { id: "apartment", label: "Apartment" },
+];
+
+export default function IntakeFlow() {
+  const searchParams = useSearchParams();
+  const [currentStep, setCurrentStep] = useState<IntakeStep>("confirm");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
+
+  const [intakeData, setIntakeData] = useState<IntakeData>({
+    recommendation: "",
+    service: "",
+    goal: "",
+    country: "",
+    propertyType: "",
+    ownership: "",
+    timeline: "",
+    postcode: "",
+    houseType: "",
+    name: "",
+    email: "",
+    phone: "",
   });
 
-  const updateData = useCallback((key: keyof IntakeData, value: string) => {
-    setData((prev) => ({ ...prev, [key]: value }));
-  }, []);
+  // Initialize data from URL params
+  useEffect(() => {
+    const service = searchParams.get("service") || "";
+    const goal = searchParams.get("goal") || "";
+    const country = searchParams.get("country") || "";
+    
+    // Map service to recommendation
+    const recommendationMap: Record<string, string> = {
+      "solar": "Solar panels",
+      "heat-pumps": "Heat pump",
+      "renovation": "Windows & renovation",
+      "insulation": "Insulation",
+    };
 
-  const nextStep = useCallback(() => {
-    const steps: IntakeStep[] = ["confirm", "context", "home", "contact", "confirmation"];
-    const currentIndex = steps.indexOf(step);
+    setIntakeData(prev => ({
+      ...prev,
+      service,
+      goal,
+      country,
+      recommendation: recommendationMap[service] || "Home improvement",
+    }));
+  }, [searchParams]);
+
+  const updateIntakeData = (updates: Partial<IntakeData>) => {
+    setIntakeData(prev => ({ ...prev, ...updates }));
+  };
+
+  const nextStep = () => {
+    const steps: IntakeStep[] = ["confirm", "context", "details", "contact", "confirmation"];
+    const currentIndex = steps.indexOf(currentStep);
     if (currentIndex < steps.length - 1) {
-      setStep(steps[currentIndex + 1]);
+      setCurrentStep(steps[currentIndex + 1]);
     }
-  }, [step]);
+  };
 
-  const prevStep = useCallback(() => {
-    const steps: IntakeStep[] = ["confirm", "context", "home", "contact", "confirmation"];
-    const currentIndex = steps.indexOf(step);
+  const prevStep = () => {
+    const steps: IntakeStep[] = ["confirm", "context", "details", "contact", "confirmation"];
+    const currentIndex = steps.indexOf(currentStep);
     if (currentIndex > 0) {
-      setStep(steps[currentIndex - 1]);
+      setCurrentStep(steps[currentIndex - 1]);
     }
-  }, [step]);
+  };
+
+  const submitIntake = async () => {
+    setIsSubmitting(true);
+    
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // In real implementation, submit to backend
+      console.log("Submitting intake data:", intakeData);
+      
+      setIsComplete(true);
+    } catch (error) {
+      console.error("Error submitting intake:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const getStepNumber = () => {
-    const steps: IntakeStep[] = ["confirm", "context", "home", "contact", "confirmation"];
-    return steps.indexOf(step) + 1;
+    const steps: IntakeStep[] = ["confirm", "context", "details", "contact", "confirmation"];
+    return steps.indexOf(currentStep) + 1;
   };
 
   const getTotalSteps = () => {
-    return 4; // confirmation is not counted as a step
+    return 5;
   };
 
-  const getProgressLabel = () => {
-    const stepNum = getStepNumber();
-    const total = getTotalSteps();
-    switch (stepNum) {
-      case 1:
-        return `Almost done — step ${stepNum} of ${total}`;
-      case 2:
-        return `You're making great progress — step ${stepNum} of ${total}`;
-      case 3:
-        return `Almost there — step ${stepNum} of ${total}`;
-      case 4:
-        return `Final details — step ${stepNum} of ${total}`;
-      default:
-        return `Step ${stepNum} of ${total}`;
-    }
-  };
-
-  return (
-    <section className="relative min-h-screen w-full bg-[#020a05]">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#020a05] via-[#0a1f12] to-[#020a05]" />
-
-      {/* Content container */}
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-2xl flex-col items-center justify-center px-6 py-20">
-        {/* Progress indicator */}
-        {step !== "confirmation" && (
-          <div className="mb-8 flex items-center gap-2">
-            <div className="h-0.5 w-8 bg-[var(--emerald-300)]/60" />
-            <p className="text-xs font-medium tracking-wide text-white/40">
-              {getProgressLabel()}
-            </p>
-            <div className="h-0.5 w-8 bg-[var(--emerald-300)]/60" />
+  // Step 1: Confirm Recommendation
+  if (currentStep === "confirm") {
+    return (
+      <section className="min-h-screen bg-gradient-to-b from-[#020a05] via-[#0b2e1d] to-[#020a05]">
+        <div className="mx-auto max-w-4xl px-6 py-16">
+          {/* Progress Indicator */}
+          <div className="mb-8">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <div className="h-px bg-emerald-400/20 flex-1 max-w-xs" />
+              <span className="text-sm font-medium text-emerald-300/60 uppercase tracking-wider">
+                Step {getStepNumber()} of {getTotalSteps()} — Confirm your improvement
+              </span>
+              <div className="h-px bg-emerald-400/20 flex-1 max-w-xs" />
+            </div>
           </div>
-        )}
 
-        {/* ==================== STEP 1: CONFIRM RECOMMENDATION ==================== */}
-        {step === "confirm" && (
-          <div className="flex w-full flex-col items-center transition-all duration-700 animate-fadeInUp">
-            <p className="text-center text-[11px] text-white/30">
-              Takes about 60 seconds
-            </p>
-            <p className="mt-4 text-center text-xs font-medium uppercase tracking-[0.12em] text-[var(--emerald-300)]">
-              Recommended for your home
-            </p>
-            <h1 className="mt-4 text-center text-3xl font-medium text-white sm:text-4xl">
-              {data.service}
+          {/* Content */}
+          <div className="text-center mb-12">
+            <div className="mb-8">
+              <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-amber-400 to-emerald-400 flex items-center justify-center shadow-lg shadow-amber-400/30">
+                <span className="text-3xl text-emerald-900">🎯</span>
+              </div>
+            </div>
+            
+            <h1 className="text-3xl md:text-4xl font-medium text-white mb-4">
+              Complete your {intakeData.recommendation} upgrade
             </h1>
-            <p className="mx-auto mt-4 max-w-md text-center text-sm leading-relaxed text-white/50">
-              {data.whyItMatters}
+            
+            <p className="text-lg text-emerald-200/80 max-w-2xl mx-auto mb-8">
+              Based on your home analysis, {intakeData.recommendation.toLowerCase()} is the most effective first step 
+              for properties like yours in {intakeData.country === "nl" ? "the Netherlands" : intakeData.country}.
             </p>
-            <p className="mt-3 text-center text-sm font-medium text-[var(--gold-300)]">
-              {data.impact}
-            </p>
+          </div>
 
-            <div className="mt-10 w-full max-w-sm">
-              <button
-                type="button"
-                onClick={nextStep}
-                className="gold-button w-full rounded-full px-8 py-3.5 text-sm font-medium transition-transform duration-200 hover:-translate-y-0.5"
-              >
-                Continue with this improvement
-              </button>
-              <button
-                type="button"
-                onClick={() => window.history.back()}
-                className="mt-4 w-full text-center text-xs text-white/30 transition hover:text-white/50"
-              >
-                Go back
-              </button>
+          {/* Recommendation Card */}
+          <div className="max-w-2xl mx-auto mb-12">
+            <div className="bg-gradient-to-br from-emerald-800/20 to-emerald-800/10 backdrop-blur-sm border border-emerald-700/30 rounded-3xl p-8">
+              <div className="text-center">
+                <h2 className="text-2xl font-semibold text-white mb-4">
+                  {intakeData.recommendation}
+                </h2>
+                <p className="text-emerald-200/80 mb-6">
+                  This upgrade typically provides the best return on investment for homes with similar characteristics 
+                  to yours, improving both comfort and long-term value.
+                </p>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-400/20 rounded-full">
+                  <span className="text-amber-300 text-sm">Recommended for your situation</span>
+                </div>
+              </div>
             </div>
           </div>
-        )}
 
-        {/* ==================== STEP 2: PROJECT CONTEXT ==================== */}
-        {step === "context" && (
-          <div className="flex w-full max-w-md flex-col transition-all duration-700 animate-fadeInUp">
-            <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-              Tell us about your property
-            </h2>
-            <p className="mt-3 text-center text-sm text-white/50">
-              This helps us match you with the right installers.
+          {/* CTA */}
+          <div className="text-center">
+            <button
+              onClick={nextStep}
+              className="inline-flex items-center gap-3 rounded-full bg-amber-400 px-8 py-4 text-base font-medium text-emerald-950 transition-all hover:bg-amber-300 hover:scale-105 shadow-lg shadow-amber-400/20"
+            >
+              Continue with this improvement
+              <span>→</span>
+            </button>
+            
+            <p className="mt-4 text-sm text-emerald-200/60">
+              Takes about 2 minutes to complete your request
             </p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
-            {/* Property type */}
-            <div className="mt-8">
-              <p className="mb-3 text-sm font-medium text-white/70">Property type</p>
-              <div className="grid grid-cols-2 gap-2">
-                {PROPERTY_TYPES.map((type) => (
-                  <button
-                    key={type.id}
-                    type="button"
-                    onClick={() => updateData("propertyType", type.id)}
-                    className={`rounded-xl border p-3 text-sm transition-all ${
-                      data.propertyType === type.id
-                        ? "border-[var(--emerald-border)] bg-[rgba(94,231,187,0.12)] text-[var(--emerald-300)]"
-                        : "border-white/[0.06] bg-white/[0.02] text-white/70 hover:border-white/10 hover:bg-white/[0.05]"
-                    }`}
-                  >
-                    {type.label}
-                  </button>
-                ))}
-              </div>
+  // Step 2: Project Context
+  if (currentStep === "context") {
+    return (
+      <section className="min-h-screen bg-gradient-to-b from-[#020a05] via-[#0b2e1d] to-[#020a05]">
+        <div className="mx-auto max-w-4xl px-6 py-16">
+          {/* Progress Indicator */}
+          <div className="mb-8">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <div className="h-px bg-emerald-400/20 flex-1 max-w-xs" />
+              <span className="text-sm font-medium text-emerald-300/60 uppercase tracking-wider">
+                Step {getStepNumber()} of {getTotalSteps()} — Project details
+              </span>
+              <div className="h-px bg-emerald-400/20 flex-1 max-w-xs" />
             </div>
+          </div>
 
-            {/* Ownership */}
-            <div className="mt-6">
-              <p className="mb-3 text-sm font-medium text-white/70">Ownership</p>
-              <div className="space-y-2">
-                {OWNERSHIP_TYPES.map((type) => (
-                  <button
-                    key={type.id}
-                    type="button"
-                    onClick={() => updateData("ownership", type.id)}
-                    className={`w-full rounded-xl border p-3 text-left text-sm transition-all ${
-                      data.ownership === type.id
-                        ? "border-[var(--emerald-border)] bg-[rgba(94,231,187,0.12)] text-[var(--emerald-300)]"
-                        : "border-white/[0.06] bg-white/[0.02] text-white/70 hover:border-white/10 hover:bg-white/[0.05]"
-                    }`}
-                  >
-                    {type.label}
-                  </button>
-                ))}
-              </div>
+          {/* Content */}
+          <div className="text-center mb-12">
+            <h1 className="text-3xl md:text-4xl font-medium text-white mb-4">
+              Tell us about your project
+            </h1>
+            <p className="text-lg text-emerald-200/80">
+              This helps us match you with the most suitable installers
+            </p>
+          </div>
+
+          {/* Property Type */}
+          <div className="max-w-2xl mx-auto mb-8">
+            <h2 className="text-lg font-medium text-white mb-4">Property type</h2>
+            <div className="grid gap-3">
+              {PROPERTY_TYPES.map((type) => (
+                <button
+                  key={type.id}
+                  onClick={() => updateIntakeData({ propertyType: type.id })}
+                  className={`p-4 rounded-2xl border-2 transition-all text-left ${
+                    intakeData.propertyType === type.id
+                      ? "border-emerald-400 bg-emerald-400/20"
+                      : "border-emerald-700/30 bg-emerald-800/10 hover:border-emerald-600/50"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">{type.icon}</span>
+                    <span className="text-white font-medium">{type.label}</span>
+                    {intakeData.propertyType === type.id && (
+                      <span className="ml-auto text-emerald-400">✓</span>
+                    )}
+                  </div>
+                </button>
+              ))}
             </div>
+          </div>
 
-            {/* Timeline */}
-            <div className="mt-6">
-              <p className="mb-3 text-sm font-medium text-white/70">Timeline</p>
-              <div className="space-y-2">
-                {TIMELINE_OPTIONS.map((option) => (
-                  <button
-                    key={option.id}
-                    type="button"
-                    onClick={() => updateData("timeline", option.id)}
-                    className={`w-full rounded-xl border p-3 text-left text-sm transition-all ${
-                      data.timeline === option.id
-                        ? "border-[var(--emerald-border)] bg-[rgba(94,231,187,0.12)] text-[var(--emerald-300)]"
-                        : "border-white/[0.06] bg-white/[0.02] text-white/70 hover:border-white/10 hover:bg-white/[0.05]"
-                    }`}
-                  >
-                    {option.label}
-                  </button>
-                ))}
+          {/* Ownership */}
+          <div className="max-w-2xl mx-auto mb-8">
+            <h2 className="text-lg font-medium text-white mb-4">Ownership</h2>
+            <div className="grid gap-3">
+              {OWNERSHIP_TYPES.map((type) => (
+                <button
+                  key={type.id}
+                  onClick={() => updateIntakeData({ ownership: type.id })}
+                  className={`p-4 rounded-2xl border-2 transition-all text-left ${
+                    intakeData.ownership === type.id
+                      ? "border-emerald-400 bg-emerald-400/20"
+                      : "border-emerald-700/30 bg-emerald-800/10 hover:border-emerald-600/50"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">{type.icon}</span>
+                    <span className="text-white font-medium">{type.label}</span>
+                    {intakeData.ownership === type.id && (
+                      <span className="ml-auto text-emerald-400">✓</span>
+                    )}
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Timeline */}
+          <div className="max-w-2xl mx-auto mb-12">
+            <h2 className="text-lg font-medium text-white mb-4">Timeline</h2>
+            <div className="grid gap-3">
+              {TIMELINE_TYPES.map((type) => (
+                <button
+                  key={type.id}
+                  onClick={() => updateIntakeData({ timeline: type.id })}
+                  className={`p-4 rounded-2xl border-2 transition-all text-left ${
+                    intakeData.timeline === type.id
+                      ? "border-emerald-400 bg-emerald-400/20"
+                      : "border-emerald-700/30 bg-emerald-800/10 hover:border-emerald-600/50"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">{type.icon}</span>
+                    <span className="text-white font-medium">{type.label}</span>
+                    {intakeData.timeline === type.id && (
+                      <span className="ml-auto text-emerald-400">✓</span>
+                    )}
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Navigation */}
+          <div className="flex justify-center gap-4">
+            <button
+              onClick={prevStep}
+              className="px-6 py-3 rounded-full border border-emerald-600/50 text-emerald-200 hover:bg-emerald-800/20 transition-all"
+            >
+              Back
+            </button>
+            <button
+              onClick={nextStep}
+              disabled={!intakeData.propertyType || !intakeData.ownership || !intakeData.timeline}
+              className="px-8 py-3 rounded-full bg-amber-400 text-emerald-950 font-medium hover:bg-amber-300 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Continue
+            </button>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Step 3: Home Details
+  if (currentStep === "details") {
+    return (
+      <section className="min-h-screen bg-gradient-to-b from-[#020a05] via-[#0b2e1d] to-[#020a05]">
+        <div className="mx-auto max-w-4xl px-6 py-16">
+          {/* Progress Indicator */}
+          <div className="mb-8">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <div className="h-px bg-emerald-400/20 flex-1 max-w-xs" />
+              <span className="text-sm font-medium text-emerald-300/60 uppercase tracking-wider">
+                Step {getStepNumber()} of {getTotalSteps()} — Location details
+              </span>
+              <div className="h-px bg-emerald-400/20 flex-1 max-w-xs" />
+            </div>
+          </div>
+
+          {/* Content */}
+          <div className="text-center mb-12">
+            <h1 className="text-3xl md:text-4xl font-medium text-white mb-4">
+              Where is your property located?
+            </h1>
+            <p className="text-lg text-emerald-200/80">
+              We use this to match you with installers in your area
+            </p>
+          </div>
+
+          {/* Form */}
+          <div className="max-w-2xl mx-auto">
+            <div className="bg-gradient-to-br from-emerald-800/20 to-emerald-800/10 backdrop-blur-sm border border-emerald-700/30 rounded-3xl p-8">
+              {/* Postcode */}
+              <div className="mb-6">
+                <label className="block text-white font-medium mb-2">
+                  Postcode *
+                </label>
+                <input
+                  type="text"
+                  value={intakeData.postcode}
+                  onChange={(e) => updateIntakeData({ postcode: e.target.value })}
+                  placeholder="Enter your postcode"
+                  className="w-full px-4 py-3 rounded-xl bg-emerald-900/30 border border-emerald-600/50 text-white placeholder-emerald-400/50 focus:outline-none focus:border-emerald-400 focus:bg-emerald-900/40 transition-all"
+                />
               </div>
-              {data.timeline && (
-                <p className="mt-2 text-[11px] text-[var(--emerald-300)]/60">
-                  Got it — this narrows down the right installers
+
+              {/* House Type */}
+              <div className="mb-6">
+                <label className="block text-white font-medium mb-2">
+                  House type (optional)
+                </label>
+                <select
+                  value={intakeData.houseType}
+                  onChange={(e) => updateIntakeData({ houseType: e.target.value })}
+                  className="w-full px-4 py-3 rounded-xl bg-emerald-900/30 border border-emerald-600/50 text-white focus:outline-none focus:border-emerald-400 focus:bg-emerald-900/40 transition-all"
+                >
+                  <option value="">Select house type</option>
+                  {HOUSE_TYPES.map((type) => (
+                    <option key={type.id} value={type.id}>
+                      {type.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Reassurance */}
+              <div className="text-center">
+                <p className="text-sm text-emerald-300/60">
+                  Your location helps us find the most qualified installers for your area
                 </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Navigation */}
+          <div className="flex justify-center gap-4 mt-12">
+            <button
+              onClick={prevStep}
+              className="px-6 py-3 rounded-full border border-emerald-600/50 text-emerald-200 hover:bg-emerald-800/20 transition-all"
+            >
+              Back
+            </button>
+            <button
+              onClick={nextStep}
+              disabled={!intakeData.postcode}
+              className="px-8 py-3 rounded-full bg-amber-400 text-emerald-950 font-medium hover:bg-amber-300 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Continue
+            </button>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Step 4: Contact Details
+  if (currentStep === "contact") {
+    return (
+      <section className="min-h-screen bg-gradient-to-b from-[#020a05] via-[#0b2e1d] to-[#020a05]">
+        <div className="mx-auto max-w-4xl px-6 py-16">
+          {/* Progress Indicator */}
+          <div className="mb-8">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <div className="h-px bg-emerald-400/20 flex-1 max-w-xs" />
+              <span className="text-sm font-medium text-emerald-300/60 uppercase tracking-wider">
+                Step {getStepNumber()} of {getTotalSteps()} — Contact details
+              </span>
+              <div className="h-px bg-emerald-400/20 flex-1 max-w-xs" />
+            </div>
+          </div>
+
+          {/* Content */}
+          <div className="text-center mb-12">
+            <h1 className="text-3xl md:text-4xl font-medium text-white mb-4">
+              Almost done
+            </h1>
+            <p className="text-lg text-emerald-200/80">
+              Add your contact details to receive installer matches
+            </p>
+          </div>
+
+          {/* Form */}
+          <div className="max-w-2xl mx-auto">
+            <div className="bg-gradient-to-br from-emerald-800/20 to-emerald-800/10 backdrop-blur-sm border border-emerald-700/30 rounded-3xl p-8">
+              {/* Name */}
+              <div className="mb-6">
+                <label className="block text-white font-medium mb-2">
+                  Full name *
+                </label>
+                <input
+                  type="text"
+                  value={intakeData.name}
+                  onChange={(e) => updateIntakeData({ name: e.target.value })}
+                  placeholder="Enter your full name"
+                  className="w-full px-4 py-3 rounded-xl bg-emerald-900/30 border border-emerald-600/50 text-white placeholder-emerald-400/50 focus:outline-none focus:border-emerald-400 focus:bg-emerald-900/40 transition-all"
+                />
+              </div>
+
+              {/* Email */}
+              <div className="mb-6">
+                <label className="block text-white font-medium mb-2">
+                  Email address *
+                </label>
+                <input
+                  type="email"
+                  value={intakeData.email}
+                  onChange={(e) => updateIntakeData({ email: e.target.value })}
+                  placeholder="Enter your email address"
+                  className="w-full px-4 py-3 rounded-xl bg-emerald-900/30 border border-emerald-600/50 text-white placeholder-emerald-400/50 focus:outline-none focus:border-emerald-400 focus:bg-emerald-900/40 transition-all"
+                />
+              </div>
+
+              {/* Phone */}
+              <div className="mb-8">
+                <label className="block text-white font-medium mb-2">
+                  Phone number (recommended)
+                </label>
+                <input
+                  type="tel"
+                  value={intakeData.phone}
+                  onChange={(e) => updateIntakeData({ phone: e.target.value })}
+                  placeholder="Enter your phone number"
+                  className="w-full px-4 py-3 rounded-xl bg-emerald-900/30 border border-emerald-600/50 text-white placeholder-emerald-400/50 focus:outline-none focus:border-emerald-400 focus:bg-emerald-900/40 transition-all"
+                />
+                <p className="mt-2 text-sm text-emerald-300/60">
+                  Installers often prefer phone contact for project discussions
+                </p>
+              </div>
+
+              {/* Reassurance */}
+              <div className="bg-emerald-900/20 rounded-xl p-4 mb-6">
+                <p className="text-sm text-emerald-200 text-center">
+                  You will only be contacted by suitable installers for your {intakeData.recommendation.toLowerCase()} project
+                </p>
+                <p className="text-sm text-emerald-300/60 text-center mt-1">
+                  No spam, no random calls
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Navigation */}
+          <div className="flex justify-center gap-4 mt-12">
+            <button
+              onClick={prevStep}
+              className="px-6 py-3 rounded-full border border-emerald-600/50 text-emerald-200 hover:bg-emerald-800/20 transition-all"
+            >
+              Back
+            </button>
+            <button
+              onClick={submitIntake}
+              disabled={!intakeData.name || !intakeData.email || isSubmitting}
+              className="px-8 py-3 rounded-full bg-amber-400 text-emerald-950 font-medium hover:bg-amber-300 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isSubmitting ? "Submitting..." : "Get matched with installers"}
+            </button>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Step 5: Confirmation
+  return (
+    <section className="min-h-screen bg-gradient-to-b from-[#020a05] via-[#0b2e1d] to-[#020a05]">
+      <div className="mx-auto max-w-4xl px-6 py-16">
+        {/* Content */}
+        <div className="text-center">
+          <div className="mb-8">
+            <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-amber-400 to-emerald-400 flex items-center justify-center shadow-lg shadow-amber-400/30">
+              {isComplete ? (
+                <span className="text-3xl text-emerald-900">✓</span>
+              ) : (
+                <div className="animate-spin rounded-full h-6 w-6 border-2 border-emerald-900 border-t-transparent"></div>
               )}
             </div>
-
-            <div className="mt-8 flex gap-3">
-              <button
-                type="button"
-                onClick={prevStep}
-                className="flex-1 rounded-full border border-white/10 px-6 py-3 text-sm text-white/50 transition hover:border-white/20 hover:text-white/70"
-              >
-                Back
-              </button>
-              <button
-                type="button"
-                onClick={nextStep}
-                disabled={!data.propertyType || !data.ownership || !data.timeline}
-                className="gold-button flex-1 rounded-full px-6 py-3 text-sm font-medium transition-transform duration-200 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Continue
-              </button>
-            </div>
           </div>
-        )}
 
-        {/* ==================== STEP 3: HOME DETAILS ==================== */}
-        {step === "home" && (
-          <div className="flex w-full max-w-md flex-col transition-all duration-700 animate-fadeInUp">
-            <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-              Where is your property located?
-            </h2>
-            <p className="mt-3 text-center text-sm text-white/50">
-              We only use this to find installers in your area.
-            </p>
+          <h1 className="text-3xl md:text-4xl font-medium text-white mb-4">
+            {isComplete ? "Request submitted successfully" : "Matching you with suitable installers"}
+          </h1>
 
-            <div className="mt-8">
-              <label htmlFor="postcode" className="mb-2 block text-sm font-medium text-white/70">
-                Postcode
-              </label>
-              <input
-                id="postcode"
-                type="text"
-                value={data.postcode || ""}
-                onChange={(e) => updateData("postcode", e.target.value)}
-                placeholder="e.g. 1000 AA"
-                className="w-full rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-sm text-white placeholder:text-white/30 focus:border-[var(--emerald-border)] focus:outline-none focus:ring-1 focus:ring-[var(--emerald-300)]/50"
-              />
-            </div>
+          <p className="text-lg text-emerald-200/80 max-w-2xl mx-auto mb-12">
+            {isComplete 
+              ? `We're matching you with verified ${intakeData.recommendation.toLowerCase()} installers in your area. You'll receive contact details within 24-48 hours.`
+              : "We're finding the best installers for your specific project requirements..."
+            }
+          </p>
 
-            <div className="mt-8 flex gap-3">
-              <button
-                type="button"
-                onClick={prevStep}
-                className="flex-1 rounded-full border border-white/10 px-6 py-3 text-sm text-white/50 transition hover:border-white/20 hover:text-white/70"
-              >
-                Back
-              </button>
-              <button
-                type="button"
-                onClick={nextStep}
-                disabled={!data.postcode}
-                className="gold-button flex-1 rounded-full px-6 py-3 text-sm font-medium transition-transform duration-200 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Continue
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* ==================== STEP 4: CONTACT DETAILS ==================== */}
-        {step === "contact" && (
-          <div className="flex w-full max-w-md flex-col transition-all duration-700 animate-fadeInUp">
-            {/* Reward anticipation */}
-            <div className="mb-6 rounded-xl border border-[var(--gold-border)]/40 bg-[rgba(247,209,123,0.04)] p-4">
-              <p className="text-center text-sm text-[var(--gold-300)]">
-                You're about to see the most suitable installers for your project.
-              </p>
-            </div>
-
-            <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-              How should installers contact you?
-            </h2>
-            <p className="mt-3 text-center text-sm text-white/50">
-              You will only be contacted by suitable installers.
-            </p>
-
-            <div className="mt-8 space-y-4">
-              <div>
-                <label htmlFor="name" className="mb-2 block text-sm font-medium text-white/70">
-                  Name
-                </label>
-                <input
-                  id="name"
-                  type="text"
-                  value={data.name || ""}
-                  onChange={(e) => updateData("name", e.target.value)}
-                  placeholder="Your full name"
-                  className="w-full rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-sm text-white placeholder:text-white/30 focus:border-[var(--emerald-border)] focus:outline-none focus:ring-1 focus:ring-[var(--emerald-300)]/50"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="email" className="mb-2 block text-sm font-medium text-white/70">
-                  Email
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  value={data.email || ""}
-                  onChange={(e) => updateData("email", e.target.value)}
-                  placeholder="your@email.com"
-                  className="w-full rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-sm text-white placeholder:text-white/30 focus:border-[var(--emerald-border)] focus:outline-none focus:ring-1 focus:ring-[var(--emerald-300)]/50"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="phone" className="mb-2 block text-sm font-medium text-white/70">
-                  Phone number <span className="text-white/40">(optional but recommended)</span>
-                </label>
-                <input
-                  id="phone"
-                  type="tel"
-                  value={data.phone || ""}
-                  onChange={(e) => updateData("phone", e.target.value)}
-                  placeholder="+31 6 12345678"
-                  className="w-full rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-sm text-white placeholder:text-white/30 focus:border-[var(--emerald-border)] focus:outline-none focus:ring-1 focus:ring-[var(--emerald-300)]/50"
-                />
+          {isComplete && (
+            <div className="max-w-2xl mx-auto">
+              <div className="bg-gradient-to-br from-emerald-800/20 to-emerald-800/10 backdrop-blur-sm border border-emerald-700/30 rounded-3xl p-8 mb-8">
+                <h2 className="text-xl font-semibold text-white mb-4">What happens next?</h2>
+                <div className="space-y-3 text-left">
+                  <div className="flex items-start gap-3">
+                    <span className="text-emerald-400 mt-1">1</span>
+                    <div>
+                      <p className="text-white font-medium">We review your project</p>
+                      <p className="text-emerald-200/60 text-sm">Our team matches your requirements with suitable installers</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span className="text-emerald-400 mt-1">2</span>
+                    <div>
+                      <p className="text-white font-medium">Installers receive your request</p>
+                      <p className="text-emerald-200/60 text-sm">Only qualified installers for your area and project type</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span className="text-emerald-400 mt-1">3</span>
+                    <div>
+                      <p className="text-white font-medium">You receive quotes</p>
+                      <p className="text-emerald-200/60 text-sm">Direct contact from 1-3 verified installers within 24-48 hours</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
+          )}
 
-            <div className="mt-6 space-y-2 text-center">
-              <p className="text-[11px] text-white/30">
-                Your details are only used to connect you with suitable installers.
-              </p>
-              <p className="text-[11px] text-white/30">
-                You stay in control — no obligations.
-              </p>
-              <p className="text-[11px] text-white/30">
-                No spam, no random calls. Only verified installers will contact you.
-              </p>
-            </div>
-
-            <div className="mt-8 flex gap-3">
-              <button
-                type="button"
-                onClick={prevStep}
-                className="flex-1 rounded-full border border-white/10 px-6 py-3 text-sm text-white/50 transition hover:border-white/20 hover:text-white/70"
-              >
-                Back
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  // Create lead in marketplace data
-                  createLead({
-                    service: data.service || "",
-                    serviceName: data.service || "",
-                    impact: data.impact || "",
-                    whyItMatters: data.whyItMatters || "",
-                    propertyType: data.propertyType as any,
-                    ownership: data.ownership as any,
-                    timeline: data.timeline as any,
-                    postcode: data.postcode || "",
-                    region: "Unknown", // Will be derived from postcode in production
-                    homeownerName: data.name || "",
-                    homeownerEmail: data.email || "",
-                    homeownerPhone: data.phone,
-                  });
-                  nextStep();
-                }}
-                disabled={!data.name || !data.email}
-                className="gold-button flex-1 rounded-full px-6 py-3 text-sm font-medium transition-transform duration-200 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Submit request
-              </button>
-            </div>
+          <div className="flex justify-center">
+            <a
+              href="/"
+              className="inline-flex items-center gap-3 rounded-full bg-amber-400 px-8 py-4 text-base font-medium text-emerald-950 transition-all hover:bg-amber-300 hover:scale-105 shadow-lg shadow-amber-400/20"
+            >
+              Return to homepage
+              <span>→</span>
+            </a>
           </div>
-        )}
-
-        {/* ==================== STEP 5: CONFIRMATION ==================== */}
-        {step === "confirmation" && (
-          <div className="flex w-full max-w-md flex-col items-center transition-all duration-700 animate-fadeInUp">
-            <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full border border-[var(--emerald-border)] bg-[rgba(94,231,187,0.12)]">
-              <svg className="h-8 w-8 text-[var(--emerald-300)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-              </svg>
-            </div>
-            <h2 className="text-center text-2xl font-medium text-white">
-              Request submitted
-            </h2>
-            <p className="mt-3 text-center text-sm text-white/50">
-              We are matching you with suitable installers for your {data.service} project.
-            </p>
-            <p className="mt-2 text-center text-xs text-white/35">
-              Verified installers typically respond within 24 hours with free quotes tailored to your home.
-            </p>
-
-            {/* What happens next */}
-            <div className="mt-8 w-full rounded-xl border border-white/[0.06] bg-white/[0.02] p-5">
-              <p className="mb-3 text-sm font-medium text-white/70">What happens next</p>
-              <ol className="space-y-2 text-xs text-white/50">
-                <li className="flex gap-2">
-                  <span className="text-[var(--emerald-300)]">1.</span>
-                  <span>We match your request with suitable installers</span>
-                </li>
-                <li className="flex gap-2">
-                  <span className="text-[var(--emerald-300)]">2.</span>
-                  <span>You receive tailored quotes</span>
-                </li>
-                <li className="flex gap-2">
-                  <span className="text-[var(--emerald-300)]">3.</span>
-                  <span>You choose what fits your needs</span>
-                </li>
-              </ol>
-            </div>
-
-            <div className="mt-8 w-full">
-              <button
-                type="button"
-                onClick={() => (window.location.href = "/")}
-                className="gold-button w-full rounded-full px-8 py-3.5 text-sm font-medium transition-transform duration-200 hover:-translate-y-0.5"
-              >
-                Return to home
-              </button>
-            </div>
-          </div>
-        )}
+        </div>
       </div>
-
-      {/* Keyframe animations */}
-      <style>{`
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(24px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fadeInUp {
-          animation: fadeInUp 0.7s ease-out forwards;
-        }
-      `}</style>
     </section>
   );
 }
